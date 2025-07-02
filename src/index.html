@@ -1,0 +1,482 @@
+<!-- Navigation container (logo + brand + nav links) -->
+<div class="max-w-7xl mx-auto pt-6 px-4">
+  <div
+    class="bg-white rounded-xl shadow-md flex flex-wrap items-center justify-between gap-6 px-6 py-4"
+  >
+    <!-- Logo + Brand -->
+    <div class="flex items-center gap-4 flex-shrink-0">
+      <img
+        src="./images/logo.jpg"
+        alt="IWU Logo"
+        class="w-14 h-14 object-contain select-none"
+      />
+      <div class="text-sm leading-tight text-gray-800">
+        <p class="font-semibold">Internasional</p>
+        <p class="font-semibold">Women</p>
+        <p class="font-semibold">University</p>
+      </div>
+    </div>
+
+    <!-- Judul E-Voting -->
+    <h1 class="text-2xl md:text-3xl font-bold text-primary text-center mx-auto">
+      E‑Voting
+    </h1>
+
+    <!-- Nav links (hide on small) -->
+    <nav
+      class="hidden lg:flex items-center gap-10 text-sm font-medium text-gray-700"
+    >
+      <a href="#" class="hover:text-sky-600">Home</a>
+      <a href="#kandidat" class="hover:text-sky-600">Kandidat</a>
+      <a href="#quick" class="hover:text-sky-600">Quick&nbsp;Count</a>
+      <a href="#faq" class="hover:text-sky-600">Question</a>
+    </nav>
+
+    <!-- Login buttons -->
+    <div class="flex items-center gap-3 ml-auto">
+      <a
+        href="#login-pemilih"
+        class="text-sm font-medium px-5 py-1.5 rounded-full border border-sky-600 text-sky-600 hover:bg-sky-50 whitespace-nowrap"
+        >Login Pemilih</a
+      >
+      <a
+        href="#login-admin"
+        class="text-sm font-medium px-5 py-1.5 rounded-full bg-primary text-white hover:bg-gray-700 whitespace-nowrap"
+        >Login Admin/Panitia</a
+      >
+    </div>
+  </div>
+</div>
+
+      <!-- Hero Illustration & Copy -->
+      <div
+        class="relative max-w-7xl mx-auto px-4 mt-14 grid md:grid-cols-2 gap-10 items-center"
+      >
+        <!-- Illustration -->
+        <div class="flex justify-center md:justify-start">
+          <div class="w-72 md:w-[420px] h-72 md:h-[420px] bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+            <svg class="w-32 h-32 text-white/70" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Headline -->
+        <div class="text-white max-w-lg">
+          <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
+            Sistem Informasi <span class="text-sky-200">E‑Voting</span>
+          </h2>
+          <h3 class="text-xl font-semibold mb-1">Pemilihan Ketua Himpunan</h3>
+          <p class="text-sm md:text-base mb-8 opacity-90 max-w-md">
+            Online Berbasis Web • Realtime • Aman &amp; Transparan
+          </p>
+          <div class="flex gap-4">
+            <a
+              href="#kandidat"
+              class="px-6 py-2 rounded-full border border-white text-white text-sm font-medium hover:bg-white hover:text-primary transition"
+              >LIHAT KANDIDAT</a
+            >
+            <a
+              href="#voting"
+              class="px-6 py-2 rounded-full bg-white text-primary text-sm font-medium hover:bg-gray-200 transition"
+              >VOTING SEKARANG</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative wave bottom -->
+      <svg
+        class="absolute bottom-0 left-0 w-full"
+        viewBox="0 0 1440 220"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 32L48 48C96 64 192 96 288 106.7C384 117 480 107 576 101.3C672 96 768 96 864 122.7C960 149 1056 203 1152 197.3C1248 192 1344 128 1392 96L1440 64V220H1392C1344 220 1248 220 1152 220C1056 220 960 220 864 220C768 220 672 220 576 220C480 220 384 220 288 220C192 220 96 220 48 220H0Z"
+          fill="#ffffff"
+        />
+      </svg>
+    </section>
+
+    <!-- ================= SECTION: PILIH KANDIDAT ================= -->
+    <section id="kandidat" class="pt-16 pb-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">
+          Pilih Pemimpin Pilihanmu
+        </h2>
+        <p class="text-center text-sm text-gray-600 mb-10 max-w-2xl mx-auto">
+          Kenali visi dan misi setiap kandidat sebelum menentukan pilihan Anda.
+          Voting akan ditutup pada:
+          <span class="font-semibold">30 Februari 2025 pukul 23:59 WIB</span>
+        </p>
+
+        <!-- Filter + Search -->
+        <div class="relative w-full md:w-56">
+  <label for="filter-kandidat" class="sr-only">Pilih Kandidat</label>
+  <select
+    id="filter-kandidat"
+    class="appearance-none w-full border border-gray-300 rounded-md py-2 pl-4 pr-8 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+  >
+    <option>Semua Kandidat</option>
+    <option>Kandidat Utama</option>
+    <option>Calon Favorit</option>
+  </select>
+  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+    ▼
+  </div>
+</div>
+
+          <!-- search -->
+          <div class="w-full md:w-64 relative">
+            <input
+              type="text"
+              placeholder="Cari Nama Kandidat.."
+              class="w-full border border-gray-300 rounded-md py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4 absolute left-3 top-2.5 text-gray-400"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103 10.5a7.5 7.5 0 0013.65 6.15z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Card 1 -->
+          <div class="bg-white rounded-lg shadow-md border overflow-hidden hover:shadow-lg transition">
+            <div class="relative">
+              <div class="h-64 w-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                <div class="w-24 h-24 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                  OO
+                </div>
+              </div>
+              <span
+                class="absolute top-2 right-2 bg-primary text-white text-[10px] uppercase px-2 py-[2px] rounded-full"
+                >No. Urut 1</span
+              >
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-lg">Orang orangan</h3>
+                <span
+                  class="bg-rose-100 text-rose-500 text-[10px] uppercase font-medium px-2 py-[2px] rounded"
+                  >Fakultas Hukum</span
+                >
+              </div>
+              <p class="text-xs text-gray-700">
+                "Mewujudkan himpunan yang inklusif dan berprestasi di tingkat
+                nasional"
+              </p>
+              <!-- Progress -->
+              <div class="text-[11px] font-medium text-gray-600 mb-1">
+                Total Suara <span class="float-right">12,450 Suara</span>
+              </div>
+              <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-sky-600 h-full w-[60%]"></div>
+              </div>
+              <!-- List visi misi -->
+              <ul class="space-y-1 text-sm mt-2">
+                <li class="flex gap-2 items-start">
+                  <span class="text-green-500">✓</span> Meningkatkan kualitas akademik
+                </li>
+                <li class="flex gap-2 items-start">
+                  <span class="text-green-500">✓</span> Program beasiswa untuk anggota
+                </li>
+              </ul>
+              <!-- Buttons -->
+              <div class="grid grid-cols-2 gap-2 pt-2">
+                <button
+                  class="border border-gray-300 rounded py-1.5 text-sm hover:bg-gray-100 transition"
+                >
+                  Detail
+                </button>
+                <button
+                  class="bg-primary text-white rounded py-1.5 text-sm hover:bg-gray-700 transition"
+                >
+                  Pilih
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white rounded-lg shadow-md border overflow-hidden hover:shadow-lg transition">
+            <div class="relative">
+              <div class="h-64 w-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
+                <div class="w-24 h-24 bg-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                  KS
+                </div>
+              </div>
+              <span
+                class="absolute top-2 right-2 bg-primary text-white text-[10px] uppercase px-2 py-[2px] rounded-full"
+                >No. Urut 2</span
+              >
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-lg">Kucing Siapa</h3>
+                <span
+                  class="bg-rose-100 text-rose-500 text-[10px] uppercase font-medium px-2 py-[2px] rounded"
+                  >Fakultas Hukum</span
+                >
+              </div>
+              <p class="text-xs text-gray-700">
+                "Mewujudkan himpunan yang inklusif dan berprestasi di tingkat
+                nasional"
+              </p>
+              <div class="text-[11px] font-medium text-gray-600 mb-1">
+                Total Suara <span class="float-right">9,820 Suara</span>
+              </div>
+              <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-sky-600 h-full w-[45%]"></div>
+              </div>
+              <ul class="space-y-1 text-sm mt-2">
+                <li class="flex gap-2 items-start">
+                  <span class="text-green-500">✓</span> Meningkatkan kualitas akademik
+                </li>
+                <li class="flex gap-2 items-start">
+                  <span class="text-green-500">✓</span> Program beasiswa untuk anggota
+                </li>
+              </ul>
+              <div class="grid grid-cols-2 gap-2 pt-2">
+                <button
+                  class="border border-gray-300 rounded py-1.5 text-sm hover:bg-gray-100 transition"
+                >
+                  Detail
+                </button>
+                <button
+                  class="bg-sky-600 text-white rounded py-1.5 text-sm hover:bg-sky-700 transition"
+                >
+                  Pilih
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white rounded-lg shadow-md border overflow-hidden hover:shadow-lg transition">
+            <div class="relative">
+              <div class="h-64 w-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                  JS
+                </div>
+              </div>
+              <span
+                class="absolute top-2 right-2 bg-primary text-white text-[10px] uppercase px-2 py-[2px] rounded-full"
+                >No. Urut 3</span
+              >
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-lg">Johnny Suh</h3>
+                <span
+                  class="bg-rose-100 text-rose-500 text-[10px] uppercase font-medium px-2 py-[2px] rounded"
+                  >Fakultas Hukum</span
+                >
+              </div>
+              <p class="text-xs text-gray-700">
+                "Mewujudkan himpunan yang inklusif dan berprestasi di tingkat
+                nasional"
+              </p>
+              <div class="text-[11px] font-medium text-gray-600 mb-1">
+                Total Suara <span class="float-right">11,230 Suara</span>
+              </div>
+              <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-sky-600 h-full w-[55%]"></div>
+              </div>
+              <ul class="space-y-1 text-sm mt-2">
+                <li class="flex gap-2 items-start">
+                  <span class="text-green-500">✓</span> Meningkatkan kualitas akademik
+                </li>
+                <li class="flex gap-2 items-start">
+                  <span class="text-green-500">✓</span> Program beasiswa untuk anggota
+                </li>
+              </ul>
+              <div class="grid grid-cols-2 gap-2 pt-2">
+                <button
+                  class="border border-gray-300 rounded py-1.5 text-sm hover:bg-gray-100 transition"
+                >
+                  Detail
+                </button>
+                <button
+                  class="bg-primary text-white rounded py-1.5 text-sm hover:bg-gray-700 transition"
+                >
+                  Pilih
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8 flex justify-center items-center gap-2 text-sm">
+          <button
+            class="px-4 py-1.5 bg-gray-100 rounded border border-gray-300 hover:bg-gray-200 transition"
+          >
+            Sebelumnya
+          </button>
+          <button class="px-3 py-1.5 rounded bg-primary text-white">1</button>
+          <button class="px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 transition">
+            2
+          </button>
+          <span class="px-1">…</span>
+          <button class="px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 transition">
+            20
+          </button>
+          <button
+            class="px-4 py-1.5 bg-gray-100 rounded border border-gray-300 hover:bg-gray-200 transition"
+          >
+            Selanjutnya
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION: QUICK COUNT ================= -->
+    <section id="quick" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">
+          Real Time Count
+        </h2>
+        <div class="grid md:grid-cols-2 gap-10">
+          <!-- Statistik Voting (kiri) -->
+          <div class="bg-white shadow-md border rounded-lg p-6">
+            <h3 class="font-semibold mb-4">Statistik Voting</h3>
+            <div class="space-y-4 text-sm">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span>Total Suara Masuk</span><span class="font-semibold">17,890</span>
+                </div>
+                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div class="bg-primary h-full w-[75%] transition-all duration-500"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span>Suara Sah</span><span class="font-semibold">17,650</span>
+                </div>
+                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div class="bg-green-500 h-full w-[74%] transition-all duration-500"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span>Suara Tidak Sah</span><span class="font-semibold">240</span>
+                </div>
+                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[1%] transition-all duration-500"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hasil Sementara (kanan) -->
+          <div class="bg-white shadow-md border rounded-lg p-6 flex flex-col">
+            <h3 class="font-semibold mb-6">Hasil Sementara</h3>
+            <!-- Simple bar chart built with flex-->
+            <div class="flex-1 flex items-end gap-4 justify-center min-h-[300px]">
+              <!-- Bar 1 -->
+              <div class="flex flex-col items-center">
+                <div
+                  class="bg-primary w-16 rounded-t flex items-end justify-center text-white text-xs p-2 transition-all duration-500"
+                  style="height: 180px;"
+                >
+                  45%
+                </div>
+                <span class="text-xs mt-2 text-center font-medium">Orang<br />orangan</span>
+              </div>
+              <!-- Bar 2 -->
+              <div class="flex flex-col items-center">
+                <div
+                  class="bg-sky-600 w-16 rounded-t flex items-end justify-center text-white text-xs p-2 transition-all duration-500"
+                  style="height: 152px;"
+                >
+                  38%
+                </div>
+                <span class="text-xs mt-2 text-center font-medium">Kucing<br />Siapa</span>
+              </div>
+              <!-- Bar 3 -->
+              <div class="flex flex-col items-center">
+                <div
+                  class="bg-gray-400 w-16 rounded-t flex items-end justify-center text-white text-xs p-2 transition-all duration-500"
+                  style="height: 164px;"
+                >
+                  41%
+                </div>
+                <span class="text-xs mt-2 text-center font-medium">Johnny<br />Suh</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION: FAQ ================= -->
+    <section id="faq" class="py-20 bg-gray-50">
+      <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">
+          Pertanyaan Umum
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8 text-sm text-gray-700">
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-semibold mb-2 text-primary">
+                Bagaimana cara melakukan voting?
+              </h4>
+              <p>
+                Klik tombol "Voting Sekarang", login dengan akun mahasiswa, lalu
+                pilih kandidat.
+              </p>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-2 text-primary">Apakah data saya aman?</h4>
+              <p>
+                Sistem menggunakan enkripsi dan audit trail sehingga kerahasiaan
+                suara terjamin.
+              </p>
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-semibold mb-2 text-primary">Siapa yang bisa melakukan voting?</h4>
+              <p>
+                Hanya mahasiswa aktif yang telah diverifikasi oleh panitia pemilu.
+              </p>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-2 text-primary">Apakah hasilnya real‑time?</h4>
+              <p>
+                Ya, grafik "Real Time Count" diperbarui otomatis tiap kali suara
+                disubmit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-primary text-white py-8">
+      <div
+        class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4"
+      >
+        <p class="text-sm">© 2025 E‑Voting IWU. All rights reserved.</p>
+        <div class="flex gap-4 text-sm">
+          <a href="#" class="hover:underline transition">Privacy</a>
+          <a href="#" class="hover:underline transition">Contact</a>
+          <a href="#" class="hover:underline transition">Social Media</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
