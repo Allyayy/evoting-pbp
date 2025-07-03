@@ -466,17 +466,61 @@
     </section>
 
     <!-- ================= FOOTER ================= -->
-    <footer class="bg-primary text-white py-8">
-      <div
-        class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4"
-      >
-        <p class="text-sm">© 2025 E‑Voting IWU. All rights reserved.</p>
-        <div class="flex gap-4 text-sm">
-          <a href="#" class="hover:underline transition">Privacy</a>
-          <a href="#" class="hover:underline transition">Contact</a>
-          <a href="#" class="hover:underline transition">Social Media</a>
-        </div>
+   <!-- Font Awesome CDN (masukkan di <head> file HTML kamu) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-yHn88...your-integrity-code..."
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+<!-- Footer -->
+<footer class="bg-primary text-white pt-12 pb-6">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+    <!-- Kolom 1: VOTERA IWU -->
+    <div>
+      <h3 class="font-bold text-sm mb-2">VOTERA IWU</h3>
+      <p class="text-sm leading-relaxed text-gray-300">
+        Sistem Pemilihan Ketua Organisasi Mahasiswa berbasis web -
+        Internasional Women University
+      </p>
+    </div>
+
+    <!-- Kolom 2: TAUTAN CEPAT -->
+    <div>
+      <h3 class="font-bold text-sm mb-2">TAUTAN CEPAT</h3>
+      <ul class="space-y-1 text-sm text-gray-300">
+        <li><a href="#" class="hover:text-white transition">Home</a></li>
+        <li><a href="#kandidat" class="hover:text-white transition">Kandidat</a></li>
+        <li><a href="#quick" class="hover:text-white transition">Quick Count</a></li>
+        <li><a href="#faq" class="hover:text-white transition">Question</a></li>
+      </ul>
+    </div>
+
+    <!-- Kolom 3: KONTAK -->
+    <div>
+      <h3 class="font-bold text-sm mb-2">KONTAK</h3>
+      <ul class="space-y-1 text-sm text-gray-300">
+        <li><a href="mailto:nama@iwu.ac.id" class="hover:text-white">nama@iwu.ac.id</a></li>
+        <li>0813 1020 2005</li>
+        <li>Gedung Runuth Lt 100</li>
+      </ul>
+    </div>
+
+    <!-- Kolom 4: MEDIA SOSIAL -->
+    <div>
+      <h3 class="font-bold text-sm mb-2">MEDIA SOSIAL</h3>
+      <div class="flex space-x-4 text-white text-lg">
+        <a href="#" class="hover:text-sky-400 transition" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-sky-400 transition" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="hover:text-sky-400 transition" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
       </div>
-    </footer>
-  </body>
-</html>
+    </div>
+  </div>
+
+  <!-- Garis pemisah + Copyright -->
+  <div class="mt-10 border-t border-sky-700 pt-4 text-center text-sm text-gray-400">
+    © 2025 Votera. All rights reserved.
+  </div>
+</footer>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Votera</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              navy: "#06102A",
+              sky: "#0090df",
+              primary: "#06102A",
+            },
+            fontFamily: {
+              poppins: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="flex min-h-screen bg-white">
+
+    <!-- KIRI -->
+    <div class="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-10 relative">
+      <!-- Logo -->
+      <div class="absolute top-6 left-6 flex items-center gap-3">
+        <img src="./images/logo.jpg" alt="Logo IWU" class="w-10 h-10 object-contain" />
+        <div class="text-sm font-medium text-gray-700 leading-tight">
+          <p>Internasional</p>
+          <p>Women</p>
+          <p>University</p>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="w-full max-w-sm bg-white rounded-xl shadow-lg p-6">
+        <div class="flex flex-col items-center text-center">
+          <!-- Vote Icon Placeholder -->
+          <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M4 6h16M4 6l1.5 16h13L20 6" />
+            </svg>
+          </div>
+          <h1 class="text-xl font-semibold text-primary">Votera</h1>
+          <p class="text-sm text-gray-500 mt-1 mb-6">Pilih peran anda untuk melanjutkan login</p>
+        </div>
+
+        <!-- Mahasiswa -->
+        <a href="#login-mahasiswa" class="block bg-sky-100 hover:bg-sky-200 transition p-4 rounded-lg mb-4 border border-sky-300">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-sky-600 text-white rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 2a5 5 0 00-4.546 2.916A5.5 5.5 0 007 15h6a5.5 5.5 0 001.546-10.084A5 5 0 0010 2z" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-medium">Mahasiswa</p>
+              <p class="text-sm text-gray-600">Masuk menggunakan NIM anda</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Admin -->
+        <a href="#login-admin" class="block hover:bg-gray-100 transition p-4 rounded-lg border border-gray-300">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M13 7H7v6h6V7z" />
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3-11a1 1 0 011 1v6a1 1 0 01-1 1H7a1 1 0 01-1-1V8a1 1 0 011-1h6z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-medium">Admin / Panitia</p>
+              <p class="text-sm text-gray-600">Masuk menggunakan Email anda</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- KANAN -->
+    <div class="hidden md:flex md:w-1/2 bg-gradient-to-b from-navy to-sky justify-center items-center">
+      <img src="./images/1.png" alt="Ilustrasi Voting" class="w-[80%] max-w-md" />
+    </div>
+
+  </body>
+</html>
