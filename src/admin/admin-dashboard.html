@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votera - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        .sidebar-light {
+            background-color: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+        }
+        .sidebar-item {
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .sidebar-item.active {
+            background-color: #343a40;
+            color: white;
+            border-radius: 20px;
+            margin: 0 16px;
+        }
+        .sidebar-item:hover {
+            background-color: #e9ecef;
+            border-radius: 8px;
+        }
+        .sidebar-item.active:hover {
+            background-color: #343a40;
+        }
+        .stat-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .chart-container {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="w-52 sidebar-light">
+            <div class="px-4 py-6">
+                <h1 class="text-xl font-bold text-gray-800">Votera</h1>
+            </div>
+            
+            <nav class="mt-4">
+                <a href="#" class="sidebar-item active flex items-center px-4 py-3 text-sm font-medium mx-4 mb-2">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium mx-4 mb-2">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Data Pemilih
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium mx-4 mb-2">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 9c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2z"/>
+                    </svg>
+                    Data Kandidat
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium mx-4 mb-2">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    Data Voting
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium mx-4 mb-2">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    Rekapitulasi Voting
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium mx-4 mb-2">
+                    <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                    </svg>
+                    Data Admin
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1">
+            <!-- Header -->
+            <header class="sidebar-dark text-white px-6 py-3 flex items-center justify-between">
+                <h2 class="text-lg font-medium">Dashboard</h2>
+                <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 bg-blue-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-medium">ML</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium">Mark Lee</p>
+                        <p class="text-xs text-gray-300">Admin</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    <div class="stat-box p-4 flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-500">Jumlah Pemilih</div>
+                            <div class="text-xl font-bold text-gray-800">2000</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-box p-4 flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 9c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2zm-9 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-9-9c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-500">Jumlah Kandidat</div>
+                            <div class="text-xl font-bold text-gray-800">3</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-box p-4 flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-500">Pemilih yang sudah memilih</div>
+                            <div class="text-xl font-bold text-gray-800">150</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-box p-4 flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-500">Pemilih yang belum memilih</div>
+                            <div class="text-xl font-bold text-gray-800">1850</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-container p-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-1">Grafik Voting</h3>
+                    <p class="text-xs text-gray-500 mb-4">Hasil Sementara</p>
+                    <div class="relative h-64">
+                        <canvas id="votingChart"></canvas>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js configuration
+        const ctx = document.getElementById('votingChart').getContext('2d');
+        const votingChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Belum Aktif (540)', 'Sedang Mengikuti (502)', 'Tidak Aktif (340)'],
+                datasets: [{
+                    data: [540, 502, 340],
+                    backgroundColor: [
+                        '#2c3e50',
+                        '#3498db',
+                        '#87ceeb'
+                    ],
+                    borderWidth: 0,
+                    borderRadius: 0,
+                    categoryPercentage: 0.6,
+                    barPercentage: 0.8,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 600,
+                        ticks: {
+                            stepSize: 100,
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            color: '#e5e7eb',
+                            lineWidth: 0.5
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                elements: {
+                    bar: {
+                        borderRadius: 0
+                    }
+                }
+            }
+        });
+
+        // Sidebar navigation
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all items
+                sidebarItems.forEach(i => {
+                    i.classList.remove('active');
+                    i.classList.add('text-gray-300');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                this.classList.remove('text-gray-300');
+                
+                // Update header title
+                const title = this.textContent.trim();
+                document.querySelector('header h2').textContent = title;
+            });
+        });
+    </script>
+</body>
+</html>
