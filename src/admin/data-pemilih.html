@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votera – Data Pemilih</title>
+
+  <!-- Tailwind & Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 antialiased">
+  <div class="flex h-screen overflow-hidden">
+    <!-- ░░ Sidebar ░░ -->
+    <aside class="w-64 bg-white shadow-lg flex-shrink-0">
+      <!-- Brand -->
+      <div class="p-4 border-b">
+        <h1 class="text-2xl font-bold text-gray-800">Votera</h1>
+      </div>
+
+      <!-- Nav -->
+      <nav class="mt-6 space-y-1">
+        <a href="../admin/admin-dashboard.html"
+           class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          Dashboard
+        </a>
+
+        <!-- Active page -->
+        <a href="../admin/data-pemilih.html"
+           class="flex items-center px-4 py-2 font-medium rounded-r-full mr-4 bg-gray-800 text-white">
+          <i class="fas fa-users mr-3"></i>
+          Data Pemilih
+        </a>
+
+        <a href="../admin/data-kandidat.html"
+           class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-user-tie mr-3"></i>
+          Data Kandidat
+        </a>
+
+        <a href="../admin/data-voting.html"
+           class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-vote-yea mr-3"></i>
+          Data Voting
+        </a>
+
+        <a href="../admin/rekap-voting.html"
+           class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-chart-bar mr-3"></i>
+          Rekapitulasi Voting
+        </a>
+
+        <a href="../admin/data-admin.html"
+           class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-user-shield mr-3"></i>
+          Data Admin
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ░░ Main ░░ -->
+    <div class="flex-1 flex flex-col">
+      <!-- Top bar -->
+      <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Data Pemilih</h2>
+
+        <div class="flex items-center space-x-3">
+          <img src="../../images/ft.jpg" alt="Mark Lee" class="w-10 h-10 rounded-full object-cover" />
+          <div class="leading-tight">
+            <div class="font-semibold">Mark Lee</div>
+            <span class="text-sm text-gray-300">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- Header & controls -->
+        <section class="mb-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">DATA PEMILIH</h3>
+
+          <!-- Tabs -->
+          <div class="flex space-x-8 mb-6">
+            <button class="border-b-2 border-blue-500 text-blue-600 pb-2 font-medium">All</button>
+            <button class="text-gray-500 pb-2 hover:text-gray-700">Fakultas</button>
+            <button class="text-gray-500 pb-2 hover:text-gray-700">Prodi</button>
+
+            <div class="ml-auto">
+              <span class="text-sm text-gray-600">Total Pemilih: </span>
+              <span class="text-blue-600 font-semibold">1 200 Orang</span>
+            </div>
+          </div>
+
+          <!-- Search & add -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="relative flex-1 max-w-md">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              <input type="text" placeholder="Cari berdasarkan nama, prodi, fakultas"
+                     class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" />
+            </div>
+
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors self-start sm:self-auto">
+              <i class="fas fa-plus mr-2"></i>
+              TAMBAH PEMILIH
+            </button>
+          </div>
+        </section>
+
+        <!-- Table -->
+        <section class="bg-white rounded-lg shadow-md overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">NO</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">NAMA</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">FAKULTAS</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">PRODI</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">NIM</th>
+                <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">KODE UNIK</th>
+                <th class="px-6 py-3"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <!-- Contoh baris, ulangi atau render lewat JS/PHP -->
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">01</td>
+                <td class="px-6 py-4 whitespace-nowrap">Peter Parker</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded">Fakultas Teknik</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">Teknik Industri</td>
+                <td class="px-6 py-4 whitespace-nowrap">10523001</td>
+                <td class="px-6 py-4 whitespace-nowrap">JW‑1052YG7</td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- Tambahkan baris lain di sini -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Pagination -->
+        <section class="flex justify-between items-center mt-6">
+          <span class="text-sm text-gray-500">1–10 of 270</span>
+
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 text-gray-500 hover:text-gray-700">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="px-3 py-1 text-gray-500 hover:text-gray-700">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
