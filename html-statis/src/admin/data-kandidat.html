@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Votera – Data Kandidat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 antialiased">
+<div class="p-6 max-w-7xl mx-auto">
+  <div class="flex justify-between items-center mb-4">
+    <input type="text" placeholder="Cari berdasarkan nama, prodi, fakultas"
+           class="px-4 py-2 w-1/3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm text-gray-700" />
+    <button class="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg text-sm">
+      + Tambah Kandidat
+    </button>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-lg shadow">
+    <table class="min-w-full text-sm">
+      <thead class="bg-gray-50 text-gray-500 text-left uppercase text-xs tracking-wider">
+        <tr>
+          <th class="px-4 py-3">No</th>
+          <th class="px-4 py-3">Name</th>
+          <th class="px-4 py-3">Fakultas</th>
+          <th class="px-4 py-3">Prodi</th>
+          <th class="px-4 py-3">NIM</th>
+          <th class="px-4 py-3">Foto</th>
+          <th class="px-4 py-3 text-right">⋮</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <!-- Kandidat Row -->
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-4 font-bold text-black flex items-center gap-2">
+            <button onclick="toggleDetail(0)" class="text-sm text-black focus:outline-none" id="toggleBtn0">▾</button> 01
+          </td>
+          <td class="px-4 py-4 font-semibold text-gray-800">Muhammad Farhan</td>
+          <td class="px-4 py-4">
+            <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs font-medium">Fakultas Teknik</span>
+          </td>
+          <td class="px-4 py-4">Teknik Industri</td>
+          <td class="px-4 py-4">10523001</td>
+          <td class="px-4 py-4">
+            <img src="https://i.pravatar.cc/40?img=1" class="w-10 h-10 rounded-full object-cover"/>
+          </td>
+          <td class="px-4 py-4 text-right">⋮</td>
+        </tr>
+        <!-- Detail Visi Misi -->
+        <tr class="hidden bg-gray-100" id="detailRow0">
+          <td colspan="7" class="px-6 py-4">
+            <div class="bg-purple-100 rounded-lg p-4 space-y-3">
+              <div class="flex justify-between text-gray-600 font-semibold text-sm border-b pb-2">
+                <div>TAHUN PERIODE</div>
+                <div>NO URUT</div>
+                <div>VISI</div>
+                <div>MISI</div>
+              </div>
+              <div class="flex text-sm text-gray-700 pt-2 gap-6">
+                <div class="w-1/4 text-blue-700 font-medium">2022 - 2023</div>
+                <div class="w-1/12 font-medium">1</div>
+                <div class="w-2/5">
+                  Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.
+                </div>
+                <div class="w-1/3">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Meningkatkan Kualitas Akademik</li>
+                    <li>Program beasiswa untuk anggota</li>
+                    <li>Pengembangan laboratorium</li>
+                    <li>Kerjasama dengan industri</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Kandidat 2 -->
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-4 font-bold text-black flex items-center gap-2">
+            <button onclick="toggleDetail(1)" class="text-sm text-black focus:outline-none" id="toggleBtn1">▾</button> 01
+          </td>
+          <td class="px-4 py-4 font-semibold text-gray-800">Muhammad Farhan</td>
+          <td class="px-4 py-4">
+            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Fakultas Ilmu Budaya</span>
+          </td>
+          <td class="px-4 py-4">Teknik Industri</td>
+          <td class="px-4 py-4">10523001</td>
+          <td class="px-4 py-4">
+            <img src="https://i.pravatar.cc/40?img=2" class="w-10 h-10 rounded-full object-cover"/>
+          </td>
+          <td class="px-4 py-4 text-right">⋮</td>
+        </tr>
+        <!-- Detail Visi Misi -->
+        <tr class="hidden bg-gray-100" id="detailRow1">
+          <td colspan="7" class="px-6 py-4">
+            <div class="bg-purple-100 rounded-lg p-4 space-y-3">
+              <div class="flex justify-between text-gray-600 font-semibold text-sm border-b pb-2">
+                <div>TAHUN PERIODE</div>
+                <div>NO URUT</div>
+                <div>VISI</div>
+                <div>MISI</div>
+              </div>
+              <div class="flex text-sm text-gray-700 pt-2 gap-6">
+                <div class="w-1/4 text-blue-700 font-medium">2023 - 2024</div>
+                <div class="w-1/12 font-medium">1</div>
+                <div class="w-2/5">
+                  Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.
+                </div>
+                <div class="w-1/3">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Meningkatkan Kualitas Akademik</li>
+                    <li>Program beasiswa untuk anggota</li>
+                    <li>Pengembangan laboratorium</li>
+                    <li>Kerjasama dengan industri</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function toggleDetail(index) {
+    const row = document.getElementById(`detailRow${index}`);
+    const btn = document.getElementById(`toggleBtn${index}`);
+    if (row.classList.contains('hidden')) {
+      row.classList.remove('hidden');
+      btn.textContent = '▴';
+    } else {
+      row.classList.add('hidden');
+      btn.textContent = '▾';
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votera – Data Pemilih</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 antialiased">
+<div class="flex h-screen overflow-hidden">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-lg flex-shrink-0">
+    <div class="p-6 border-b">
+      <h1 class="text-3xl font-bold text-gray-800">Votera</h1>
+    </div>
+    <nav class="mt-6 space-y-1">
+      <a href="../admin/admin-dashboard.html" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-tachometer-alt mr-3"></i>
+        Dashboard
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 font-medium bg-gray-800 text-white rounded-r-full mr-4">
+        <i class="fas fa-users mr-3"></i>
+        Data Pemilih
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-user-tie mr-3"></i>
+        Data Kandidat
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-vote-yea mr-3"></i>
+        Data Voting
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-chart-bar mr-3"></i>
+        Rekapitulasi Voting
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-user-shield mr-3"></i>
+        Data Admin
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
+    <header class="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
+      <h2 class="text-xl font-semibold">Pemilih</h2>
+      <div class="flex items-center gap-3">
+        <img src="../../images/ft.jpg" alt="Mark Lee" class="w-10 h-10 rounded-full object-cover" />
+        <div>
+          <div class="font-semibold">Mark Lee</div>
+          <div class="text-sm text-gray-300">Admin</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-6">
+      <h3 class="text-lg font-semibold mb-2">DATA PEMILIH</h3>
+      <div class="flex justify-between mb-4">
+        <div class="text-sm">Total Pemilih: <span class="text-blue-600 font-bold">1200</span> Orang</div>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" onclick="document.getElementById('modalTambah').classList.remove('hidden')">
+          + Tambah Pemilih
+        </button>
+      </div>
+
+      <div class="overflow-x-auto rounded-lg shadow border">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-100 text-gray-600">
+            <tr>
+              <th class="px-4 py-2">NO</th>
+              <th class="px-4 py-2">NAMA</th>
+              <th class="px-4 py-2">FAKULTAS</th>
+              <th class="px-4 py-2">PRODI</th>
+              <th class="px-4 py-2">NIM</th>
+              <th class="px-4 py-2">KODE UNIK</th>
+              <th class="px-4 py-2">AKSI</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr class="border-t">
+              <td class="px-4 py-2">01</td>
+              <td class="px-4 py-2">Peter Parker</td>
+              <td class="px-4 py-2 text-blue-600">Fakultas Teknik</td>
+              <td class="px-4 py-2">Teknik Industri</td>
+              <td class="px-4 py-2">10523001</td>
+              <td class="px-4 py-2">JW-1052Y67</td>
+              <td class="px-4 py-2">
+                <button onclick="document.getElementById('menuAksi').classList.toggle('hidden')" class="text-blue-600">⋮</button>
+                <div id="menuAksi" class="hidden absolute bg-white shadow rounded mt-1 right-0 z-50 text-left">
+                  <button class="block px-4 py-2 hover:bg-gray-100 w-full text-left">Edit</button>
+                  <button class="block px-4 py-2 hover:bg-gray-100 w-full text-left">View Profile</button>
+                  <button class="block px-4 py-2 text-red-600 hover:bg-gray-100 w-full text-left">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Success Alert -->
+      <div class="hidden mt-4 p-4 bg-green-300 text-green-900 rounded" id="alertSuccess">
+        <strong>✔ Sukses</strong> Peter Parker Ditambahkan ke Daftar Pemilih
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Modal Pilih Cara -->
+<div id="modalTambah" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <h4 class="text-lg font-semibold mb-4">Silahkan pilih cara untuk menambahkan Data Pemilih</h4>
+    <button class="w-full bg-gradient-to-r from-sky-500 to-blue-500 text-white py-2 rounded-lg mb-2" onclick="document.getElementById('modalManual').classList.remove('hidden');document.getElementById('modalTambah').classList.add('hidden')">Input Data</button>
+    <button class="w-full border border-gray-300 py-2 rounded-lg" onclick="document.getElementById('modalUpload').classList.remove('hidden');document.getElementById('modalTambah').classList.add('hidden')">Upload File</button>
+  </div>
+</div>
+
+<!-- Modal Input Data Manual -->
+<div id="modalManual" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg space-y-4">
+    <h4 class="text-lg font-semibold">Tambah Data Pemilih</h4>
+    <div class="grid grid-cols-2 gap-4">
+      <input type="text" placeholder="Masukkan Nama Anda" class="w-full border p-2 rounded" />
+      <input type="text" placeholder="Masukkan NIM Anda" class="w-full border p-2 rounded" />
+    </div>
+    <input type="text" placeholder="Kode Unik" class="w-full border p-2 rounded" />
+    <div class="grid grid-cols-2 gap-4">
+      <select class="w-full border p-2 rounded">
+        <option>Pilih Fakultas</option>
+      </select>
+      <select class="w-full border p-2 rounded">
+        <option>Pilih Prodi</option>
+      </select>
+    </div>
+    <div class="flex justify-between mt-4">
+      <button onclick="document.getElementById('modalManual').classList.add('hidden')" class="border px-4 py-2 rounded">Kembali</button>
+      <button class="bg-blue-900 text-white px-6 py-2 rounded">Tambah</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Upload File -->
+<div id="modalUpload" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <h4 class="text-lg font-semibold mb-4">Tambah Data Pemilih</h4>
+    <div class="border-2 border-dashed border-gray-300 p-10 rounded text-center mb-4">
+      <i class="fas fa-upload text-4xl text-gray-400"></i>
+      <p><a href="#" class="text-blue-600">Click here</a> to upload or drop files here</p>
+    </div>
+    <div class="flex justify-between">
+      <button onclick="document.getElementById('modalUpload').classList.add('hidden')" class="border px-4 py-2 rounded">Kembali</button>
+      <button class="bg-blue-900 text-white px-6 py-2 rounded">Tambah</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

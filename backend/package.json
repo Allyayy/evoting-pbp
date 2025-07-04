@@ -9,17 +9,12 @@
   "author": "",
   "license": "ISC",
   "description": "",
-<<<<<<< Updated upstream
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.0.1",
-    "ethers": "^6.15.0",
-    "express": "^5.1.0",
-    "firebase-admin": "^13.4.0",
-    "mongoose": "^8.16.1"
-=======
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "ethers": "^5.8.0",
     "hardhat": "^2.25.0"
->>>>>>> Stashed changes
+  },
+  "dependencies": {
+    "dotenv": "^17.0.1"
   }
 }

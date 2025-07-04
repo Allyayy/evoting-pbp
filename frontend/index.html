@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votera - IWU</title>
+  <link rel="icon" href="images/logo.jpg" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .font-poppins {
+        font-family: 'Poppins', sans-serif;
+      }
+      .gradient-bg {
+        background: linear-gradient(to bottom, #0F172A 0%, #0284C7 50%, #E0F2FE 100%);
+      }
+      .wave-shape {
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" d="M0,224C160,160,320,160,480,192C640,224,800,288,960,288C1120,288,1280,224,1440,192L1440,320L0,320Z"/></svg>') no-repeat bottom center;
+        background-size: cover;
+        height: 150px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      .mobile-menu {
+        transition: all 0.3s ease-in-out;
+      }
+      .candidate-card {
+        transition: all 0.2s ease;
+      }
+      .candidate-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      .progress-bar {
+        height: 8px;
+        border-radius: 4px;
+        background-color: #e5e7eb;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: 4px;
+        background-color: #0F172A;
+        transition: width 0.5s ease;
+      }
+      .modal {
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .modal-content {
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+      }
+      .modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal.active .modal-content {
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white font-poppins">
+  <!-- Hero Section -->
+  <div class="min-h-screen relative gradient-bg text-white overflow-hidden pb-20">
+    <!-- Header -->
+    <header class="flex justify-between items-center px-6 py-4">
+      <div class="text-sm text-white opacity-60"><img src="images/logo.jpg" style="width: 38px; height: 38px;" alt="Logo IWU"></div>
+      <div></div>
+    </header>
+    
+    <!-- Navigation -->
+    <div class="bg-white px-6 sm:px-8 py-4 rounded-b-2xl shadow-lg mx-auto max-w-7xl z-10 relative">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex justify-between items-center w-full md:w-auto">
+          <div class="text-lg font-semibold text-black">E-Voting</div>
+          <!-- Mobile menu button -->
+          <buttons id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="text-black hover:text-gray-600">Home</a>
+          <a href="#kandidat" class="text-black hover:text-gray-600">Kandidat</a>
+          <a href="#quick-count" class="text-black hover:text-gray-600">Quick Count</a>
+          <a href="#voting" class="text-black hover:text-gray-600">Voting</a>
+        </nav>
+        
+         <!-- Desktop Buttons -->
+          <a 
+          href="../src/user/login.html" class="text-sm px-4 py-2 rounded-full text-white transition" style="background-color: #0F172A;" onmouseover="this.style.backgroundColor='#0284C7'" onmouseout="this.style.backgroundColor='#0F172A'">Masuk</a>
+        </div>
+      </div>
+      
+      <!-- Mobile Navigation (hidden by default) -->
+      <div id="mobile-menu" class="mobile-menu hidden md:hidden mt-4 space-y-2">
+        <nav class="flex flex-col space-y-2">
+          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Home</a>
+          <a href="#kandidat" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Kandidat</a>
+          <a href="#quick-count" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Quick Count</a>
+          <a href="#voting" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">Voting</a>
+        </nav>
+        <div class="flex flex-col space-y-2 pt-2">
+          <a href="#admin" class="block text-center px-4 py-2 rounded-full text-white transition" style="background-color: #0F172A;">Login Admin/Panitia</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex flex-col-reverse lg:flex-row items-center justify-between px-6 py-16 max-w-7xl mx-auto z-10 relative">
+      <div class="w-full lg:w-1/2 flex justify-center">
+        <img src="../images/logo.jpg" alt="Ilustrasi E-Voting" class="w-72 sm:w-96 md:w-[420px] lg:w-[480px] h-auto" />
+      </div>
+      <div class="w-full lg:w-1/2 text-center lg:text-left text-white">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Sistem Informasi <span class="font-extrabold">E-Voting</span></h1>
+        <h2 class="text-xl md:text-2xl mb-2">Pemilihan Ketua Himpunan</h2>
+        <h3 class="text-md mb-6">Online Berbasis Web</h3>
+        <p class="text-sm md:text-base text-gray-200 mb-6 max-w-md mx-auto lg:mx-0">Sistem pemilihan ketua himpunan secara online yang aman, transparan, dan efisien. Memberikan pengalaman voting yang mudah dan dapat diakses dari mana saja.</p>
+        <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+          <a href="#kandidat" class="px-5 py-2 text-sm rounded-full border border-white bg-white/10 text-white hover:bg-white hover:text-[#0F172A] transition">LIHAT KANDIDAT</a>
+          <a href="#voting" class="px-5 py-2 text-sm rounded-full border border-black bg-white text-black hover:bg-gray-100">VOTING SEKARANG</a>
+        </div>
+      </div>
+    </main>
+    <div class="wave-shape"></div>
+  </div>
+
+  <!-- Kandidat Section -->
+  <section id="kandidat" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4">Pilih Pemimpin Pilihanmu</h2>
+        <p class="text-gray-600 mb-12 max-w-2xl mx-auto text-base md:text-lg">
+          Kenali visi dan misi setiap kandidat sebelum menentukan pilihan Anda. Voting akan ditutup pada:
+          <span class="font-semibold text-[#0F172A]">30 Juni 2025 pukul 23:59 WIB</span>
+        </p>
+      </div>
+      
+      <!-- Filter Section -->
+      <div class="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="w-full sm:w-auto">
+          <label for="filter" class="sr-only">Filter</label>
+          <select id="filter" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#0F172A] focus:ring focus:ring-[#0F172A] focus:ring-opacity-50 py-2 px-3 border">
+            <option>Semua Kandidat</option>
+            <option>Kandidat Terpopuler</option>
+            <option>Berdasarkan Fakultas</option>
+          </select>
+        </div>
+        <div class="w-full sm:w-auto">
+          <label for="search" class="sr-only">Cari Kandidat</label>
+          <div class="relative">
+            <input type="text" id="search" placeholder="Cari nama kandidat..." class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#0F172A] focus:ring focus:ring-[#0F172A] focus:ring-opacity-50 py-2 px-3 pl-10 border">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Candidate Cards -->
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Card 1 -->
+        <div class="candidate-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative">
+            <img src="img/kucing1.jpg" alt="Kandidat 1" class="w-full h-64 object-cover">
+            <div class="absolute top-4 right-4 bg-[#0F172A] text-white text-xs font-bold px-3 py-1 rounded-full">
+              No. Urut 1
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-gray-800">Muhammad Farhan</h3>
+              <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Fakultas Teknik</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">"Mewujudkan himpunan yang inklusif dan berprestasi di tingkat nasional"</p>
+            
+            <div class="mb-4">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Total Suara</span>
+                <span class="font-semibold">1,245 suara</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 65%"></div>
+              </div>
+            </div>
+            
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2 text-[#0F172A]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm text-gray-600">Meningkatkan kualitas akademik</span>
+              </div>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2 text-[#0F172A]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm text-gray-600">Program beasiswa untuk anggota</span>
+              </div>
+            </div>
+            
+            <div class="flex space-x-2">
+              <button onclick="openDetailModal('Muhammad Farhan', 'Fakultas Teknik', 'img/kucing1.jpg', '1', '1245', '65', ['Meningkatkan kualitas akademik', 'Program beasiswa untuk anggota', 'Pengembangan laboratorium', 'Kerjasama dengan industri'], 'Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
+                Detail
+              </button>
+              <button onclick="openVoteModal('Muhammad Farhan', '1', 'img/kucing1.jpg')" class="flex-1 text-center px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition text-sm font-medium">
+                Pilih
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="candidate-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative">
+            <img src="img/kucing.jpg" alt="Kandidat 2" class="w-full h-64 object-cover">
+            <div class="absolute top-4 right-4 bg-[#0F172A] text-white text-xs font-bold px-3 py-1 rounded-full">
+              No. Urut 2
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-gray-800">Sarah Wijaya</h3>
+              <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Fakultas Ekonomi</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">"Membangun jaringan alumni yang kuat untuk mendukung karir anggota"</p>
+            
+            <div class="mb-4">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Total Suara</span>
+                <span class="font-semibold">892 suara</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 45%"></div>
+              </div>
+            </div>
+            
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2 text-[#0F172A]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm text-gray-600">Pengembangan soft skills</span>
+              </div>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2 text-[#0F172A]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm text-gray-600">Magang di perusahaan mitra</span>
+              </div>
+            </div>
+            
+            <div class="flex space-x-2">
+              <button onclick="openDetailModal('Sarah Wijaya', 'Fakultas Ekonomi', 'img/kucing.jpg', '2', '892', '45', ['Pengembangan soft skills', 'Magang di perusahaan mitra', 'Jaringan alumni yang kuat', 'Kewirausahaan mahasiswa'], 'Saya berkomitmen untuk membangun himpunan yang mendukung pengembangan karir anggotanya melalui jaringan alumni yang kuat dan program magang di perusahaan-perusahaan ternama.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
+                Detail
+              </button>
+              <button onclick="openVoteModal('Sarah Wijaya', '2', 'img/kucing.jpg')" class="flex-1 text-center px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition text-sm font-medium">
+                Pilih
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="candidate-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative">
+            <img src="img/kucing1.jpg" alt="Kandidat 3" class="w-full h-64 object-cover">
+            <div class="absolute top-4 right-4 bg-[#0F172A] text-white text-xs font-bold px-3 py-1 rounded-full">
+              No. Urut 3
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-gray-800">Ahmad Fauzi</h3>
+              <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Fakultas Hukum</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">"Memperkuat advokasi mahasiswa dan transparansi keuangan himpunan"</p>
+            
+            <div class="mb-4">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Total Suara</span>
+                <span class="font-semibold">543 suara</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 28%"></div>
+              </div>
+            </div>
+            
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2 text-[#0F172A]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm text-gray-600">Transparansi anggaran</span>
+              </div>
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2 text-[#0F172A]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-sm text-gray-600">Konsultasi hukum gratis</span>
+              </div>
+            </div>
+            
+            <div class="flex space-x-2">
+              <button onclick="openDetailModal('Ahmad Fauzi', 'Fakultas Hukum', 'img/kucing1.jpg', '3', '543', '28', ['Transparansi anggaran', 'Konsultasi hukum gratis', 'Advokasi mahasiswa', 'Reformasi organisasi'], 'Saya ingin membawa perubahan dalam sistem organisasi himpunan dengan prinsip transparansi, akuntabilitas, dan pelayanan terbaik untuk semua anggota, khususnya dalam hal advokasi dan perlindungan hak mahasiswa.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
+                Detail
+              </button>
+              <button onclick="openVoteModal('Ahmad Fauzi', '3', 'img/kucing1.jpg')" class="flex-1 text-center px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition text-sm font-medium">
+                Pilih
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="mt-12 flex justify-center">
+        <nav class="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 text-sm">
+          <!-- Tombol Sebelumnya -->
+          <a href="#"
+            class="px-3 py-1 rounded-md border border-gray-300 text-gray-500 hover:bg-gray-100 transition duration-150 ease-in-out">
+            Sebelumnya
+          </a>
+
+          <!-- Halaman aktif -->
+          <a href="#"
+            class="px-3 py-1 rounded-md bg-[#0F172A] text-white font-semibold shadow-md transition duration-150 ease-in-out">
+            1
+          </a>
+
+          <!-- Halaman lainnya -->
+          <a href="#"
+            class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out">
+            2
+          </a>
+
+          <a href="#"
+            class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out">
+            3
+          </a>
+
+          <!-- Ellipsis -->
+          <span class="px-3 py-1 text-gray-500">...</span>
+
+          <a href="#"
+            class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out">
+            8
+          </a>
+
+          <!-- Tombol Selanjutnya -->
+          <a href="#"
+            class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-150 ease-in-out">
+            Selanjutnya
+          </a>
+        </nav>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Real Time Count Section -->
+  <section id="quick-count" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-[#0F172A] mb-2">Real Time Count</h2>
+        <p class="text-gray-600">Pemantauan hasil perhitungan secara real time</p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Voting Info -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Statistik Voting</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Total Pemilih Terdaftar</span>
+                <span class="font-semibold">3,245</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Total Sudah Memilih</span>
+                <span class="font-semibold">2,680 (82.6%)</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 82.6%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Total Belum Memilih</span>
+                <span class="font-semibold">565 (17.4%)</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 17.4%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-6 border-t border-gray-200">
+            <div id="countdown" class="text-xl font-bold text-[#0F172A] mb-2">Loading countdown...</div>
+            <p class="text-sm text-gray-600">Waktu tersisa untuk memberikan suara Anda</p>
+          </div>
+        </div>
+        
+        <!-- Chart -->
+        <div class="bg-white rounded-xl shadow-md p-6 lg:col-span-2">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Hasil Sementara</h3>
+          <canvas id="voteChart" class="w-full h-64"></canvas>
+          <div class="mt-4 text-sm text-gray-600 text-center">
+            * Data diperbarui setiap 3 detik. Hasil final akan diumumkan setelah voting ditutup.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FAQ Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-[#0F172A] mb-2">Pertanyaan Umum</h2>
+        <p class="text-gray-600">Temukan jawaban untuk pertanyaan yang sering diajukan</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- FAQ Item 1 -->
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-[#0F172A] mb-2">Bagaimana cara melakukan voting?</h3>
+          <p class="text-gray-600 text-sm">Login menggunakan akun SSO Anda, pilih kandidat yang Anda dukung, lalu konfirmasi pilihan Anda. Pastikan Anda hanya memilih satu kali.</p>
+        </div>
+        
+        <!-- FAQ Item 2 -->
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-[#0F172A] mb-2">Kapan hasil final diumumkan?</h3>
+          <p class="text-gray-600 text-sm">Hasil final akan diumumkan 1x24 jam setelah voting ditutup melalui website ini dan media sosial resmi himpunan.</p>
+        </div>
+        
+        <!-- FAQ Item 3 -->
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-[#0F172A] mb-2">Apakah voting ini aman dan terjamin kerahasiaannya?</h3>
+          <p class="text-gray-600 text-sm">Ya, sistem kami menggunakan enkripsi end-to-end dan tidak menyimpan data pilihan Anda yang dapat dilacak ke identitas Anda.</p>
+        </div>
+        
+        <!-- FAQ Item 4 -->
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-[#0F172A] mb-2">Bagaimana jika saya mengalami kendala teknis?</h3>
+          <p class="text-gray-600 text-sm">Hubungi panitia melalui WhatsApp di 0812-3456-7890 atau email evoting-support@iwu.ac.id dengan menyertakan bukti screenshot kendala yang dialami.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detail Candidate Modal -->
+  <div id="detailModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 invisible">
+  <div class="modal-content bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      
+      <!-- Header Modal -->
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-2xl font-bold text-gray-800" id="detailName">Nama Kandidat</h3>
+        <buttons onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Isi Modal -->
+      <div class="flex flex-col md:flex-row gap-6">
+        
+        <!-- Kolom Kiri: Gambar & Info -->
+        <div class="md:w-1/8">
+          <img id="detailImage" src="" alt="Kandidat" class="w-full h-auto rounded-lg object-cover" />
+
+          <div class="mt-4 bg-gray-50 p-4 rounded-lg space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">No. Urut</span>
+              <span class="font-semibold" id="detailNumber">1</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">Fakultas</span>
+              <span class="font-semibold" id="detailFaculty">Fakultas Teknik</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">Total Suara</span>
+              <span class="font-semibold" id="detailVotes">1,245 suara</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Visi, Misi, Tombol -->
+        <div class="md:w-2/3">
+          <!-- Visi -->
+          <div class="mb-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-2">Visi</h4>
+            <p class="text-gray-600 text-sm" id="detailVision">
+              Visi kandidat akan muncul di sini.
+            </p>
+          </div>
+
+          <!-- Misi -->
+          <div class="mb-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-2">Misi</h4>
+            <ul class="space-y-2" id="detailMissions">
+              <!-- Misi akan diisi oleh JavaScript -->
+            </ul>
+          </div>
+
+          <!-- Tombol Pilih -->
+          <div class="pt-4 border-t border-gray-200">
+            <button onclick="openVoteModalFromDetail()" class="w-full px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition">
+              Pilih Kandidat Ini
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- Vote Confirmation Modal -->
+  <div id="voteModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 invisible">
+    <div class="modal-content bg-white rounded-xl max-w-md w-full">
+      <div class="p-6">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-4">
+            <svg class="w-8 h-8 text-[#0F172A]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Konfirmasi Pilihan Anda</h3>
+          <p class="text-gray-600">Anda akan memilih:</p>
+        </div>
+        
+        <div class="flex items-center bg-gray-50 p-4 rounded-lg mb-6">
+          <img id="voteModalImage" src="" alt="Kandidat" class="w-16 h-16 rounded-full object-cover mr-4">
+          <div>
+            <h4 class="font-bold text-gray-800" id="voteModalName">Nama Kandidat</h4>
+            <p class="text-sm text-gray-600">No. Urut: <span id="voteModalNumber" class="font-medium">1</span></p>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-yellow-700">
+                Setelah Anda mengkonfirmasi pilihan, Anda <span class="font-bold">tidak dapat</span> mengubahnya kembali. Pastikan Anda sudah yakin dengan pilihan Anda.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex space-x-3">
+          <button onclick="closeVoteModal()" class="flex-1 px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition">
+            Kembali
+          </button>
+          <button onclick="submitVote()" class="flex-1 px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition">
+            Konfirmasi Pilihan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vote Success Modal -->
+  <div id="successModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 invisible">
+    <div class="modal-content bg-white rounded-xl max-w-md w-full">
+      <div class="p-6 text-center">
+        <div class="w-20 h-20 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-4">
+          <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Voting Berhasil!</h3>
+        <p class="text-gray-600 mb-6">Terima kasih telah menggunakan hak pilih Anda. Suara Anda telah tercatat dengan aman.</p>
+        <button onclick="closeSuccessModal()" class="px-6 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-[#0F172A] text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">E-Voting IWU</h3>
+          <p class="text-sm text-sky-300">Sistem Pemilihan Ketua Himpunan berbasis web - Institut Warga Unggul</p>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">Tautan Cepat</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-sm text-sky-300 hover:text-white">Home</a></li>
+            <li><a href="#kandidat" class="text-sm text-sky-300 hover:text-white">Kandidat</a></li>
+            <li><a href="#quick-count" class="text-sm text-sky-300 hover:text-white">Quick Count</a></li>
+            <li><a href="#voting" class="text-sm text-sky-300 hover:text-white">Voting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">Kontak</h4>
+          <ul class="space-y-2">
+            <li class="text-sm text-sky-300">evoting@iwu.ac.id</li>
+            <li class="text-sm text-sky-300">0812-3456-7890</li>
+            <li class="text-sm text-sky-300">Gedung Student Center Lt.2</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">Media Sosial</h4>
+          <div class="flex space-x-4">
+            <a href="#" class="text-sky-300 hover:text-white">
+              <!-- Facebook Icon -->
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-sky-300 hover:text-white">
+              <!-- Twitter Icon -->
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-sky-300 hover:text-white">
+              <!-- Instagram Icon -->
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 3.807.058h.468c2.456 0 2.784-.011 3.807-.058.975-.045 1.504-.207 1.857-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-3.807v-.468c0-2.456-.011-2.784-.058-3.807-.045-.975-.207-1.504-.344-1.857a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-sky-700 text-center">
+        <p class="text-xs text-sky-400">&copy; 2025 E-Voting IWU. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    function openDetailModal(name, faculty, image, number, votes, percentage, missions, vision) {
+      document.getElementById('detailName').textContent = name;
+      document.getElementById('detailFaculty').textContent = faculty;
+      document.getElementById('detailImage').src = image;
+      document.getElementById('detailImage').alt = name;
+      document.getElementById('detailNumber').textContent = number;
+      document.getElementById('detailVotes').textContent = votes.toLocaleString() + ' suara (' + percentage + '%)';
+      document.getElementById('detailVision').textContent = vision;
+      
+      const missionsList = document.getElementById('detailMissions');
+      missionsList.innerHTML = '';
+      missions.forEach(mission => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start';
+        li.innerHTML = `
+          <svg class="w-4 h-4 mt-0.5 mr-2 text-[#0F172A] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="text-sm text-gray-600">${mission}</span>
+        `;
+        missionsList.appendChild(li);
+      });
+      
+      const modal = document.getElementById('detailModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('detailModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    let selectedCandidate = null;
+
+    function openVoteModal(name, number, image) {
+      selectedCandidate = { name, number, image };
+      document.getElementById('voteModalName').textContent = name;
+      document.getElementById('voteModalNumber').textContent = number;
+      document.getElementById('voteModalImage').src = image;
+      document.getElementById('voteModalImage').alt = name;
+      
+      const modal = document.getElementById('voteModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openVoteModalFromDetail() {
+      closeDetailModal();
+      const name = document.getElementById('detailName').textContent;
+      const number = document.getElementById('detailNumber').textContent;
+      const image = document.getElementById('detailImage').src;
+      openVoteModal(name, number, image);
+    }
+
+    function closeVoteModal() {
+      const modal = document.getElementById('voteModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function submitVote() {
+      closeVoteModal();
+      console.log('Vote submitted for:', selectedCandidate);
+      
+      setTimeout(() => {
+        const modal = document.getElementById('successModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }, 300);
+    }
+
+    function closeSuccessModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+    });
+
+    const countdownEl = document.getElementById('countdown');
+    const ctx = document.getElementById('voteChart').getContext('2d');
+
+    const targetDate = new Date();
+    targetDate.setMinutes(targetDate.getMinutes() + 45); 
+
+    let voteData = [1245, 892, 543];
+    const totalVotes = voteData.reduce((a, b) => a + b, 0);
+    const percentages = voteData.map(v => Math.round((v / totalVotes) * 100));
+
+    const voteChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Muhammad Farhan (65%)', 'Sarah Wijaya (45%)', 'Ahmad Fauzi (28%)'],
+        datasets: [{
+          label: 'Jumlah Suara',
+          data: voteData,
+          backgroundColor: ['#0F172A', '#0284C7', '#7DD3FC'], 
+          borderRadius: 10,
+          barThickness: 40
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0F172A',
+            titleColor: '#ffffff',
+            bodyColor: '#ffffff',
+            padding: 10,
+            cornerRadius: 6,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.raw.toLocaleString() + ' suara';
+                return label;
+              }
+            }
+          },
+          title: { 
+            display: true,
+            text: 'Distribusi Suara Sementara',
+            font: {
+              size: 16,
+              family: 'Poppins'
+            },
+            color: '#0F172A' 
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { 
+              stepSize: 200,
+              color: '#0F172A',
+              callback: function(value) {
+                return value.toLocaleString();
+              }
+            },
+            grid: { color: '#E2E8F0' } 
+          },
+          x: {
+            ticks: {
+              color: '#0F172A'
+            },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    function updateVotes() {
+      voteData = voteData.map(v => v + Math.floor(Math.random() * 10)); 
+      const newTotal = voteData.reduce((a, b) => a + b, 0);
+      const newPercentages = voteData.map(v => Math.round((v / newTotal) * 100));
+      
+      voteChart.data.datasets[0].data = voteData;
+      voteChart.data.labels = [
+        `Muhammad Farhan (${newPercentages[0]}%)`,
+        `Sarah Wijaya (${newPercentages[1]}%)`,
+        `Ahmad Fauzi (${newPercentages[2]}%)`
+      ];
+      voteChart.update();
+      
+      document.querySelectorAll('.progress-fill').forEach((el, index) => {
+        el.style.width = `${newPercentages[index]}%`;
+      });
+      
+      const voteCountElements = document.querySelectorAll('.progress-bar + div span:last-child');
+      voteCountElements.forEach((el, index) => {
+        el.textContent = `${voteData[index].toLocaleString()} suara`;
+      });
+    }
+
+    function updateRealtime() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        countdownEl.innerText = "Voting telah berakhir";
+        clearInterval(timer);
+        return;
+      }
+
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      if (hours > 0) {
+        countdownEl.innerText = `Sisa Waktu Voting: ${Math.floor(hours)}h ${Math.floor(minutes)}m ${seconds}s`;
+      } else {
+        countdownEl.innerText = `Sisa Waktu Voting: ${Math.floor(minutes)}m ${seconds}s`;
+      }
+
+      updateVotes();
+    }
+
+    const timer = setInterval(updateRealtime, 3000);
+    updateRealtime(); 
+  </script>
+</body>
+</html>

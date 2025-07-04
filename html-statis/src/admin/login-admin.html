@@ -25,7 +25,7 @@
     <div class="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-10 relative">
       <!-- Logo IWU -->
       <div class="absolute top-4 left-4 flex items-center gap-2">
-        <img src="../../public/logo.jpg" alt="Logo IWU" class="w-8 h-8 object-contain" />
+        <img src="../../images/logo.jpg" alt="Logo IWU" class="w-8 h-8 object-contain" />
         <div class="text-sm font-medium text-gray-700 leading-tight">
           <p>Internasional</p>
           <p>Women</p>
@@ -101,13 +101,13 @@
 
     <!-- KANAN: Ilustrasi + Gradasi -->
     <div class="hidden md:flex md:w-1/2 bg-gradient-to-b from-blue-900 to-sky-500 justify-center items-center">
-      <img src="../../public/1.png" alt="Ilustrasi Voting" class="w-full max-w-2xl" />
+      <img src="../../images/1.png" alt="Ilustrasi Voting" class="w-full max-w-2xl" />
     </div>
 
     <script>
       // Inisialisasi Supabase
-      const supabaseUrl = 'https://krrmfgctomocozszobwd.supabase.co'; // Ganti dengan URL Supabase kamu
-      const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtycm1mZ2N0b21vY296c3pvYndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTkwNDIsImV4cCI6MjA2NzIzNTA0Mn0.Q7xMsSnPbxvZfMUe_B-ADbY2W2RAvkGQHeHXRe_iO-Q'; // Ganti dengan anon key Supabase kamu
+      const supabaseUrl = 'https://YOUR_SUPABASE_URL.supabase.co'; // Ganti dengan URL Supabase kamu
+      const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY'; // Ganti dengan anon key Supabase kamu
       const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
       async function handleLogin(event) {
