@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Votera</title>
+    
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen bg-white">
+    <!-- KIRI -->
+    <div class="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-10 relative">
+        <!-- Logo IWU -->
+        <div class="absolute top-4 left-4 flex items-center gap-2">
+            <img src="./images/logo.jpg" alt="Logo IWU" class="w-10 h-10 object-contain" />
+            <div class="text-sm font-medium text-gray-700 leading-tight">
+                <p>Internasional</p>
+                <p>Women</p>
+                <p>University</p>
+            </div>
+        </div>
+
+        <!-- Card Reset Password -->
+        <div class="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 space-y-6">
+            <!-- Logo & Judul -->
+            <div class="flex flex-col items-center text-center">
+                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                </div>
+                <h1 class="text-xl font-semibold text-sky-600">Votera</h1>
+            </div>
+
+            <!-- Link kembali -->
+            <a href="login-admin.html" class="text-sm text-sky-600 font-medium hover:underline">&larr; Kembali ke Login</a>
+
+            <!-- Judul Reset Password -->
+            <div class="text-center">
+                <h2 class="text-lg font-semibold text-gray-800 mb-2">Reset Password</h2>
+                <p class="text-sm text-gray-600">Masukkan email dan password baru Anda</p>
+            </div>
+
+            <!-- Form Reset Password -->
+            <form onsubmit="handleResetPassword(event)" class="space-y-4">
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Masukkan Email Anda"
+                        class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        required
+                    />
+                </div>
+
+                <!-- Password Baru -->
+                <div>
+                    <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
+                    <input
+                        type="password"
+                        id="newPassword"
+                        name="newPassword"
+                        placeholder="Masukkan Password Baru"
+                        class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        required
+                        minlength="8"
+                    />
+                </div>
+
+                <!-- Konfirmasi Password -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Konfirmasi Password Baru"
+                        class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        required
+                        minlength="8"
+                    />
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="flex items-start gap-2">
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        class="rounded border-gray-300 text-sky-500 focus:ring-sky-500 mt-1"
+                        required
+                    />
+                    <label for="terms" class="text-sm text-gray-600 leading-relaxed">
+                        Saya setuju dengan 
+                        <a href="#" class="text-sky-600 hover:underline">Syarat dan Ketentuan</a> 
+                        yang berlaku
+                    </label>
+                </div>
+
+                <!-- Tombol Reset -->
+                <button
+                    type="submit"
+                    class="w-full bg-gradient-to-r from-sky-500 to-blue-500 text-white font-semibold py-2 rounded-full hover:opacity-90 transition"
+                >
+                    Reset Password
+                </button>
+            </form>
+
+            <!-- Info Tambahan -->
+            <div class="text-center text-xs text-gray-500">
+                <p>Setelah reset, Anda akan diarahkan ke halaman login</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- KANAN: Ilustrasi + Gradasi -->
+    <div class="hidden md:flex md:w-1/2 bg-gradient-to-b from-blue-900 to-sky-500 justify-center items-center">
+        <img src="./images/1.png" alt="Ilustrasi Voting" class="w-full max-w-2xl" />
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full mx-4">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Password Berhasil Direset!</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Password baru Anda telah berhasil dibuat. Silakan login dengan password baru Anda.
+                </p>
+                <button 
+                    onclick="closeModal()"
+                    class="bg-gradient-to-r from-sky-500 to-blue-500 text-white font-semibold py-2 px-6 rounded-full hover:opacity-90 transition"
+                >
+                    Oke, Login Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full mx-4">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Terjadi Kesalahan</h3>
+                <p id="errorMessage" class="text-gray-600 text-sm mb-4"></p>
+                <button 
+                    onclick="closeErrorModal()"
+                    class="bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold py-2 px-6 rounded-full hover:opacity-90 transition"
+                >
+                    Coba Lagi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleResetPassword(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Validasi
+            if (!email || !newPassword || !confirmPassword) {
+                showError('Semua field harus diisi!');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showError('Password dan konfirmasi password tidak cocok!');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showError('Password minimal 8 karakter!');
+                return;
+            }
+            
+            if (!terms) {
+                showError('Anda harus menyetujui syarat dan ketentuan!');
+                return;
+            }
+            
+            // Simulasi proses reset password
+            setTimeout(() => {
+                showSuccessModal();
+            }, 1000);
+        }
+        
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorModal').classList.remove('hidden');
+            document.getElementById('errorModal').classList.add('flex');
+        }
+        
+        function closeErrorModal() {
+            document.getElementById('errorModal').classList.add('hidden');
+            document.getElementById('errorModal').classList.remove('flex');
+        }
+        
+        function showSuccessModal() {
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+        
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            // Redirect ke halaman login admin
+            window.location.href = 'login-admin.html';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('errorModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeErrorModal();
+            }
+        });
+    </script>
+</body>
+</html>
