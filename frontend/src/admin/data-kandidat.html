@@ -2,140 +2,525 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Votera – Data Kandidat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votera ‑ Data Kandidat</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .notification.show {
+      transform: translateX(0);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 antialiased">
-<div class="p-6 max-w-7xl mx-auto">
-  <div class="flex justify-between items-center mb-4">
-    <input type="text" placeholder="Cari berdasarkan nama, prodi, fakultas"
-           class="px-4 py-2 w-1/3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none text-sm text-gray-700" />
-    <button class="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg text-sm">
-      + Tambah Kandidat
-    </button>
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+      <i class="fas fa-check-circle mr-3"></i>
+      <span id="notificationText">Kandidat berhasil ditambahkan!</span>
+      <button onclick="hideNotification()" class="ml-4 text-white hover:text-gray-200">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
   </div>
 
-  <div class="overflow-x-auto bg-white rounded-lg shadow">
-    <table class="min-w-full text-sm">
-      <thead class="bg-gray-50 text-gray-500 text-left uppercase text-xs tracking-wider">
-        <tr>
-          <th class="px-4 py-3">No</th>
-          <th class="px-4 py-3">Name</th>
-          <th class="px-4 py-3">Fakultas</th>
-          <th class="px-4 py-3">Prodi</th>
-          <th class="px-4 py-3">NIM</th>
-          <th class="px-4 py-3">Foto</th>
-          <th class="px-4 py-3 text-right">⋮</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100">
-        <!-- Kandidat Row -->
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-4 font-bold text-black flex items-center gap-2">
-            <button onclick="toggleDetail(0)" class="text-sm text-black focus:outline-none" id="toggleBtn0">▾</button> 01
-          </td>
-          <td class="px-4 py-4 font-semibold text-gray-800">Muhammad Farhan</td>
-          <td class="px-4 py-4">
-            <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs font-medium">Fakultas Teknik</span>
-          </td>
-          <td class="px-4 py-4">Teknik Industri</td>
-          <td class="px-4 py-4">10523001</td>
-          <td class="px-4 py-4">
-            <img src="https://i.pravatar.cc/40?img=1" class="w-10 h-10 rounded-full object-cover"/>
-          </td>
-          <td class="px-4 py-4 text-right">⋮</td>
-        </tr>
-        <!-- Detail Visi Misi -->
-        <tr class="hidden bg-gray-100" id="detailRow0">
-          <td colspan="7" class="px-6 py-4">
-            <div class="bg-purple-100 rounded-lg p-4 space-y-3">
-              <div class="flex justify-between text-gray-600 font-semibold text-sm border-b pb-2">
-                <div>TAHUN PERIODE</div>
-                <div>NO URUT</div>
-                <div>VISI</div>
-                <div>MISI</div>
+  <!-- Modal Tambah Kandidat -->
+  <div id="addCandidateModal" class="modal">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Tambah Data Kandidat</h3>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <form id="candidateForm">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Tahun Periode</label>
+            <input type="text" id="tahunPeriode" placeholder="2024" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">No Urut</label>
+            <input type="text" id="noUrut" placeholder="01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Nama</label>
+            <input type="text" id="namaKandidat" placeholder="Masukkan Nama Anda" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">NIM</label>
+            <input type="text" id="nimKandidat" placeholder="Masukkan NIM Anda" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Fakultas</label>
+            <select id="fakultasKandidat" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">Pilih Fakultas Kandidat</option>
+              <option value="Fakultas Teknik">Fakultas Teknik</option>
+              <option value="Fakultas Ilmu Budaya">Fakultas Ilmu Budaya</option>
+              <option value="Fakultas Ekonomi">Fakultas Ekonomi</option>
+              <option value="Fakultas Kedokteran">Fakultas Kedokteran</option>
+              <option value="Fakultas Hukum">Fakultas Hukum</option>
+              <option value="Fakultas MIPA">Fakultas MIPA</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Prodi</label>
+            <select id="prodiKandidat" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">Pilih Prodi Kandidat</option>
+              <option value="Teknik Industri">Teknik Industri</option>
+              <option value="Sastra Indonesia">Sastra Indonesia</option>
+              <option value="Manajemen">Manajemen</option>
+              <option value="Kedokteran">Kedokteran</option>
+              <option value="Ilmu Hukum">Ilmu Hukum</option>
+              <option value="Matematika">Matematika</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Foto</label>
+          <div class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+            <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2"></i>
+            <p class="text-blue-600 cursor-pointer">Click here to upload or drop files here</p>
+            <input type="file" id="fotoKandidat" accept="image/*" class="hidden">
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Visi</label>
+          <textarea id="visiKandidat" placeholder="Masukkan Visi Kandidat" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Misi</label>
+          <textarea id="misiKandidat" placeholder="Masukkan Misi Kandidat" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        
+        <div class="flex gap-3">
+          <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+            Cancel
+          </button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+            Tambah
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg flex-shrink-0">
+      <div class="p-4 border-b">
+        <h1 class="text-2xl font-bold text-gray-800">Votera</h1>
+      </div>
+      <nav class="mt-6 space-y-1">
+        <a href="../admin/dashboard.html" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          Dashboard
+        </a>
+        <a href="../admin/data-pemilih.html" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-users mr-3"></i>
+          Data Pemilih
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 font-medium rounded-r-full mr-4 bg-gray-800 text-white">
+          <i class="fas fa-user-tie mr-3"></i>
+          Data Kandidat
+        </a>
+        <a href="../admin/data-voting.html" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-vote-yea mr-3"></i>
+          Data Voting
+        </a>
+        <a href="../admin/rekap-voting.html" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-chart-bar mr-3"></i>
+          Rekapitulasi Voting
+        </a>
+        <a href="../admin/data-admin.html" class="flex items-center px-4 py-2 font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-user-shield mr-3"></i>
+          Data Admin
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Data Kandidat</h2>
+        <div class="flex items-center space-x-3">
+          <img src="https://via.placeholder.com/40x40" alt="Mark Lee" class="w-10 h-10 rounded-full object-cover" />
+          <div class="leading-tight">
+            <div class="font-semibold">Mark Lee</div>
+            <span class="text-sm text-gray-300">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- Header Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">DATA KANDIDAT</h3>
+            <button onclick="openModal()" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition-colors">
+              <i class="fas fa-plus mr-2"></i>TAMBAH KANDIDAT
+            </button>
+          </div>
+
+          <!-- Tabs -->
+          <div class="flex space-x-6 mb-4">
+            <button class="pb-2 border-b-2 border-blue-600 text-blue-600 font-medium">All</button>
+            <button class="pb-2 text-gray-500 hover:text-gray-700">Fakultas</button>
+            <button class="pb-2 text-gray-500 hover:text-gray-700">Prodi</button>
+          </div>
+
+          <!-- Search and Total -->
+          <div class="flex justify-between items-center">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              <input type="text" placeholder="Cari berdasarkan nama, prodi, fakultas" class="pl-10 pr-4 py-2 border rounded-md w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="text-sm text-gray-600">
+              Total Kandidat: <span id="totalKandidat" class="font-semibold text-blue-600">6</span> Orang
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <table class="w-full">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NO</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NAME</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FAKULTAS</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PRODI</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIM</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FOTO</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+              </tr>
+            </thead>
+            <tbody id="candidateTableBody" class="bg-white divide-y divide-gray-200">
+              <!-- Existing candidates will be populated here -->
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+            <div class="flex items-center justify-between">
+              <div class="flex-1 flex justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                  Previous
+                </a>
+                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                  Next
+                </a>
               </div>
-              <div class="flex text-sm text-gray-700 pt-2 gap-6">
-                <div class="w-1/4 text-blue-700 font-medium">2022 - 2023</div>
-                <div class="w-1/12 font-medium">1</div>
-                <div class="w-2/5">
-                  Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.
+              <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                  <p class="text-sm text-gray-700">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium" id="showingCount">6</span> of <span class="font-medium" id="totalCount">6</span> results
+                  </p>
                 </div>
-                <div class="w-1/3">
-                  <ol class="list-decimal list-inside space-y-1">
-                    <li>Meningkatkan Kualitas Akademik</li>
-                    <li>Program beasiswa untuk anggota</li>
-                    <li>Pengembangan laboratorium</li>
-                    <li>Kerjasama dengan industri</li>
-                  </ol>
+                <div>
+                  <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                      <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                      1
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                      <i class="fas fa-chevron-right"></i>
+                    </a>
+                  </nav>
                 </div>
               </div>
             </div>
-          </td>
-        </tr>
-
-        <!-- Kandidat 2 -->
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-4 font-bold text-black flex items-center gap-2">
-            <button onclick="toggleDetail(1)" class="text-sm text-black focus:outline-none" id="toggleBtn1">▾</button> 01
-          </td>
-          <td class="px-4 py-4 font-semibold text-gray-800">Muhammad Farhan</td>
-          <td class="px-4 py-4">
-            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Fakultas Ilmu Budaya</span>
-          </td>
-          <td class="px-4 py-4">Teknik Industri</td>
-          <td class="px-4 py-4">10523001</td>
-          <td class="px-4 py-4">
-            <img src="https://i.pravatar.cc/40?img=2" class="w-10 h-10 rounded-full object-cover"/>
-          </td>
-          <td class="px-4 py-4 text-right">⋮</td>
-        </tr>
-        <!-- Detail Visi Misi -->
-        <tr class="hidden bg-gray-100" id="detailRow1">
-          <td colspan="7" class="px-6 py-4">
-            <div class="bg-purple-100 rounded-lg p-4 space-y-3">
-              <div class="flex justify-between text-gray-600 font-semibold text-sm border-b pb-2">
-                <div>TAHUN PERIODE</div>
-                <div>NO URUT</div>
-                <div>VISI</div>
-                <div>MISI</div>
-              </div>
-              <div class="flex text-sm text-gray-700 pt-2 gap-6">
-                <div class="w-1/4 text-blue-700 font-medium">2023 - 2024</div>
-                <div class="w-1/12 font-medium">1</div>
-                <div class="w-2/5">
-                  Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.
-                </div>
-                <div class="w-1/3">
-                  <ol class="list-decimal list-inside space-y-1">
-                    <li>Meningkatkan Kualitas Akademik</li>
-                    <li>Program beasiswa untuk anggota</li>
-                    <li>Pengembangan laboratorium</li>
-                    <li>Kerjasama dengan industri</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
-</div>
 
-<script>
-  function toggleDetail(index) {
-    const row = document.getElementById(`detailRow${index}`);
-    const btn = document.getElementById(`toggleBtn${index}`);
-    if (row.classList.contains('hidden')) {
-      row.classList.remove('hidden');
-      btn.textContent = '▴';
-    } else {
-      row.classList.add('hidden');
-      btn.textContent = '▾';
+  <script>
+    // Sample data
+    let candidates = [
+      {
+        id: 1,
+        name: 'Muhammad Farhan',
+        fakultas: 'Fakultas Teknik',
+        prodi: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: ['2022-2023', '2023-2024'],
+        noUrut: [1, 1],
+        visi: 'Menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.',
+        misi: 'Meningkatkan Kualitas Akademik, Program beasiswa untuk anggota, Pengembangan laboratorium, Kerjasama dengan industri.'
+      },
+      {
+        id: 2,
+        name: 'Siti Nurhaliza',
+        fakultas: 'Fakultas Ilmu Budaya',
+        prodi: 'Sastra Indonesia',
+        nim: '10523002',
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: ['2023-2024'],
+        noUrut: [1],
+        visi: 'Mengembangkan potensi mahasiswa dalam bidang sastra dan budaya dengan mengutamakan kreativitas dan inovasi.',
+        misi: 'Menyelenggarakan workshop kreatif, Festival budaya tahunan, Publikasi karya mahasiswa, Kolaborasi dengan komunitas seni.'
+      },
+      {
+        id: 3,
+        name: 'Ahmad Rizki',
+        fakultas: 'Fakultas Ekonomi',
+        prodi: 'Manajemen',
+        nim: '10523003',
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: ['2022-2023', '2023-2024'],
+        noUrut: [1, 1],
+        visi: 'Membangun generasi ekonomi yang berjiwa entrepreneur dan memiliki integritas tinggi.',
+        misi: 'Seminar kewirausahaan, Inkubator bisnis mahasiswa, Pelatihan financial planning, Networking dengan alumni.'
+      },
+      {
+        id: 4,
+        name: 'Dewi Sartika',
+        fakultas: 'Fakultas Kedokteran',
+        prodi: 'Kedokteran',
+        nim: '10523004',
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: ['2023-2024'],
+        noUrut: [1],
+        visi: 'Menjadi wadah pengembangan mahasiswa kedokteran yang berkomitmen pada pelayanan kesehatan masyarakat.',
+        misi: 'Bakti sosial kesehatan, Seminar medis, Pelatihan first aid, Kolaborasi dengan rumah sakit.'
+      },
+      {
+        id: 5,
+        name: 'Budi Santoso',
+        fakultas: 'Fakultas Hukum',
+        prodi: 'Ilmu Hukum',
+        nim: '10523005',
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: ['2022-2023', '2023-2024'],
+        noUrut: [1, 1],
+        visi: 'Mewujudkan mahasiswa hukum yang berkeadilan dan menjunjung tinggi supremasi hukum.',
+        misi: 'Legal clinic gratis, Seminar hukum, Advokasi masyarakat, Kompetisi debat hukum.'
+      },
+      {
+        id: 6,
+        name: 'Rina Wulandari',
+        fakultas: 'Fakultas MIPA',
+        prodi: 'Matematika',
+        nim: '10523006',
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: ['2023-2024'],
+        noUrut: [1],
+        visi: 'Mengembangkan potensi mahasiswa MIPA melalui penelitian dan inovasi teknologi.',
+        misi: 'Kompetisi matematika, Workshop penelitian, Seminar sains, Kolaborasi dengan laboratorium.'
+      }
+    ];
+
+    // Faculty colors
+    const facultyColors = {
+      'Fakultas Teknik': 'bg-blue-100 text-blue-800',
+      'Fakultas Ilmu Budaya': 'bg-green-100 text-green-800',
+      'Fakultas Ekonomi': 'bg-yellow-100 text-yellow-800',
+      'Fakultas Kedokteran': 'bg-purple-100 text-purple-800',
+      'Fakultas Hukum': 'bg-red-100 text-red-800',
+      'Fakultas MIPA': 'bg-indigo-100 text-indigo-800'
+    };
+
+    // Modal functions
+    function openModal() {
+      document.getElementById('addCandidateModal').classList.add('show');
     }
-  }
-</script>
+
+    function closeModal() {
+      document.getElementById('addCandidateModal').classList.remove('show');
+      document.getElementById('candidateForm').reset();
+    }
+
+    // Notification functions
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notificationText');
+      
+      notificationText.textContent = message;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        hideNotification();
+      }, 3000);
+    }
+
+    function hideNotification() {
+      document.getElementById('notification').classList.remove('show');
+    }
+
+    // Toggle detail function
+    function toggleDetail(id) {
+      const detailRow = document.getElementById(`detail-${id}`);
+      const arrow = document.getElementById(`arrow-${id}`);
+      
+      if (detailRow.classList.contains('hidden')) {
+        detailRow.classList.remove('hidden');
+        arrow.classList.add('rotate-180');
+      } else {
+        detailRow.classList.add('hidden');
+        arrow.classList.remove('rotate-180');
+      }
+    }
+
+    // Render candidates
+    function renderCandidates() {
+      const tbody = document.getElementById('candidateTableBody');
+      tbody.innerHTML = '';
+      
+      candidates.forEach((candidate, index) => {
+        const facultyColorClass = facultyColors[candidate.fakultas] || 'bg-gray-100 text-gray-800';
+        
+        tbody.innerHTML += `
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <span class="text-sm font-medium text-gray-900 mr-3">${String(index + 1).padStart(2, '0')}</span>
+                <button onclick="toggleDetail(${candidate.id})" class="text-gray-600 hover:text-gray-800">
+                  <i id="arrow-${candidate.id}" class="fas fa-chevron-down transition-transform duration-200"></i>
+                </button>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900">${candidate.name}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${facultyColorClass}">
+                ${candidate.fakultas}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${candidate.prodi}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${candidate.nim}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <img class="h-10 w-10 rounded-full object-cover" src="${candidate.foto}" alt="Foto">
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <button class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+            </td>
+          </tr>
+          <tr id="detail-${candidate.id}" class="hidden">
+            <td colspan="7" class="px-0 py-0">
+              <div class="bg-purple-50 px-6 py-4 border-l-4 border-purple-400">
+                <div class="grid grid-cols-3 gap-6">
+                  <div class="text-center">
+                    <h4 class="font-medium text-gray-700 mb-2 text-sm">TAHUN PERIODE</h4>
+                    <div class="space-y-2">
+                      ${candidate.tahunPeriode.map(periode => `
+                        <div class="bg-white rounded px-3 py-2">
+                          <div class="text-xs text-gray-600">${periode}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <h4 class="font-medium text-gray-700 mb-2 text-sm">NO URUT</h4>
+                    <div class="space-y-2">
+                      ${candidate.noUrut.map(urut => `
+                        <div class="bg-white rounded px-3 py-2">
+                          <div class="text-xs font-medium text-gray-900">${urut}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-700 mb-2 text-sm">VISI & MISI</h4>
+                    <div class="bg-white rounded px-3 py-2">
+                      <p class="text-xs text-gray-600 mb-2">
+                        <strong>Visi:</strong> ${candidate.visi}
+                      </p>
+                      <p class="text-xs text-gray-600">
+                        <strong>Misi:</strong> ${candidate.misi}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      
+      // Update total count
+      document.getElementById('totalKandidat').textContent = candidates.length;
+      document.getElementById('showingCount').textContent = candidates.length;
+      document.getElementById('totalCount').textContent = candidates.length;
+    }
+
+    // Form submission
+    document.getElementById('candidateForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = {
+        id: candidates.length + 1,
+        name: document.getElementById('namaKandidat').value,
+        fakultas: document.getElementById('fakultasKandidat').value,
+        prodi: document.getElementById('prodiKandidat').value,
+        nim: document.getElementById('nimKandidat').value,
+        foto: 'https://via.placeholder.com/40x40',
+        tahunPeriode: [document.getElementById('tahunPeriode').value],
+        noUrut: [parseInt(document.getElementById('noUrut').value)],
+        visi: document.getElementById('visiKandidat').value,
+        misi: document.getElementById('misiKandidat').value
+      };
+      
+      // Add to candidates array
+      candidates.push(formData);
+      
+      // Re-render table
+      renderCandidates();
+      
+      // Close modal
+      closeModal();
+      
+      // Show success notification
+      showNotification(`${formData.name} berhasil ditambahkan ke daftar kandidat!`);
+    });
+
+    // Initialize
+    renderCandidates();
+  </script>
 </body>
 </html>
