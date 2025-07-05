@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votera ‑ Data Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    .tab-button {
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-bottom: 2px solid transparent;
+      color: #6b7280;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .tab-button.active {
+      color: #3b82f6;
+      border-bottom-color: #3b82f6;
+      font-weight: 500;
+    }
+    
+    .tab-button:hover:not(.active) {
+      color: #374151;
+    }
+    
+    .table-row {
+      border-bottom: 1px solid #e5e7eb;
+      transition: background-color 0.2s ease;
+    }
+    
+    .table-row:hover {
+      background-color: #f9fafb;
+    }
+    
+    .search-input {
+      background-color: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      padding: 0.5rem 1rem;
+      padding-left: 2.5rem;
+      width: 100%;
+      max-width: 24rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .search-input::placeholder {
+      color: #9ca3af;
+    }
+
+    .add-admin-btn {
+      background-color: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .add-admin-btn:hover {
+      background-color: #2563eb;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .close {
+      color: #9ca3af;
+      float: right;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+    }
+
+    .close:hover {
+      color: #6b7280;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      color: #374151;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .file-upload {
+      border: 2px dashed #d1d5db;
+      border-radius: 0.375rem;
+      padding: 2rem;
+      text-align: center;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .file-upload:hover {
+      border-color: #3b82f6;
+      background-color: #f8fafc;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+    }
+
+    .btn-cancel {
+      background-color: white;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-cancel:hover {
+      background-color: #f9fafb;
+    }
+
+    .btn-submit {
+      background-color: #1f2937;
+      color: white;
+      border: none;
+    }
+
+    .btn-submit:hover {
+      background-color: #111827;
+    }
+
+    .notification {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #10b981;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      z-index: 1001;
+      display: none;
+    }
+
+    .notification.show {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 antialiased">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg flex-shrink-0">
+      <div class="p-4 border-b">
+        <h1 class="text-2xl font-bold text-gray-800">Votera</h1>
+      </div>
+      <nav class="mt-6 space-y-1">
+        <a href="../admin/admin-dashboard.html" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-home mr-3 text-gray-400"></i>
+          Dashboard
+        </a>
+        <a href="../admin/data-pemilih.html" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-users mr-3 text-gray-400"></i>
+          Data Pemilih
+        </a>
+        <a href="../admin/data-kandidat.html" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-user-tie mr-3 text-gray-400"></i>
+          Data Kandidat
+        </a>
+        <a href="../admin/data-voting.html" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-vote-yea mr-3 text-gray-400"></i>
+          Data Voting
+        </a>
+        <a href="../admin/rekap-voting.html" class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+          <i class="fas fa-chart-bar mr-3 text-gray-400"></i>
+          Rekapitulasi Voting
+        </a>
+        <a href="#" class="flex items-center px-4 py-3 text-sm font-medium bg-gray-800 text-white rounded-r-full mr-4">
+          <i class="fas fa-user-shield mr-3"></i>
+          Data Admin
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Admin</h2>
+        <div class="flex items-center space-x-3">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="Mark Lee" class="w-10 h-10 rounded-full object-cover" />
+          <div class="leading-tight">
+            <div class="font-semibold">Mark Lee</div>
+            <span class="text-sm text-gray-300">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="flex-1 overflow-y-auto p-6">
+        <!-- Header Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-semibold text-gray-800">DATA ADMIN</h3>
+            <div class="text-sm text-gray-600">
+              Total Admin: <span class="font-medium">5 Orang</span>
+            </div>
+          </div>
+          
+          <!-- Search and Add Button -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              <input type="text" placeholder="Cari berdasarkan nama, prodi, fakultas" class="search-input" id="searchInput">
+            </div>
+            <button class="add-admin-btn" onclick="openModal()">
+              <i class="fas fa-plus"></i>
+              TAMBAH KANDIDAT
+            </button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+          <table class="w-full">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NO</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NAMA</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">EMAIL</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PASS</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIM</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FOTO</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody" class="bg-white divide-y divide-gray-200">
+              <!-- Table rows will be populated here -->
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div class="bg-white px-6 py-4 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-700">
+                1-10 of 276
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="previousPage()" class="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50" id="prevBtn">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="nextPage()" class="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50" id="nextBtn">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 class="text-lg font-semibold mb-4">Tambah Data Admin</h3>
+      
+      <div class="form-group">
+        <label class="form-label">Nama</label>
+        <input type="text" class="form-input" id="adminName" placeholder="Masukkan Nama Anda">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="adminEmail" placeholder="Masukkan NIM Anda">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Foto</label>
+        <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+          <i class="fas fa-upload text-2xl mb-2"></i>
+          <p><span style="color: #3b82f6; text-decoration: underline;">Click here</span> to upload or drop files here</p>
+          <input type="file" id="fileInput" style="display: none;" accept="image/*">
+        </div>
+      </div>
+      
+      <div class="btn-group">
+        <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-submit" onclick="submitAdmin()">Tambah</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <i class="fas fa-check-circle"></i>
+    <div>
+      <div class="font-medium">Sukses</div>
+      <div class="text-sm">Peter Parker Ditambahkan ke Daftar Admin</div>
+    </div>
+  </div>
+
+  <script>
+    // Sample admin data
+    let adminData = [
+      {
+        id: 1,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 2,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 3,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 4,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 5,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 6,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 7,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 8,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 9,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      },
+      {
+        id: 10,
+        nama: 'Muhammad Farhan',
+        email: 'iwu@ac.id',
+        pass: 'Teknik Industri',
+        nim: '10523001',
+        foto: 'user-avatar.jpg'
+      }
+    ];
+
+    let currentPage = 1;
+    let itemsPerPage = 10;
+    let filteredData = [...adminData];
+
+    // Render table
+    function renderTable() {
+      const tbody = document.getElementById('adminTableBody');
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const pageData = filteredData.slice(startIndex, endIndex);
+      
+      tbody.innerHTML = '';
+      
+      pageData.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.className = 'table-row';
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+            ${String(startIndex + index + 1).padStart(2, '0')}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            ${item.nama}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            ${item.email}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            ${item.pass}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            ${item.nim}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+              <i class="fas fa-user text-gray-600"></i>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+      
+      updatePagination();
+    }
+
+    // Update pagination
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      const startItem = (currentPage - 1) * itemsPerPage + 1;
+      const endItem = Math.min(currentPage * itemsPerPage, filteredData.length);
+      
+      document.querySelector('.text-sm.text-gray-700').textContent = `${startItem}-${endItem} of ${filteredData.length}`;
+      
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+      
+      if (currentPage === 1) {
+        prevBtn.classList.add('opacity-50');
+      } else {
+        prevBtn.classList.remove('opacity-50');
+      }
+      
+      if (currentPage === totalPages) {
+        nextBtn.classList.add('opacity-50');
+      } else {
+        nextBtn.classList.remove('opacity-50');
+      }
+    }
+
+    // Previous page
+    function previousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+      }
+    }
+
+    // Next page
+    function nextPage() {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    }
+
+    // Modal functions
+    function openModal() {
+      document.getElementById('adminModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('adminModal').style.display = 'none';
+      // Reset form
+      document.getElementById('adminName').value = '';
+      document.getElementById('adminEmail').value = '';
+      document.getElementById('fileInput').value = '';
+    }
+
+    function submitAdmin() {
+      const name = document.getElementById('adminName').value;
+      const email = document.getElementById('adminEmail').value;
+      
+      if (name && email) {
+        // Add new admin to data
+        const newAdmin = {
+          id: adminData.length + 1,
+          nama: name,
+          email: email,
+          pass: 'Teknik Industri',
+          nim: '10523001',
+          foto: 'user-avatar.jpg'
+        };
+        
+        adminData.push(newAdmin);
+        filteredData = [...adminData];
+        
+        // Close modal
+        closeModal();
+        
+        // Show notification
+        const notification = document.getElementById('notification');
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 3000);
+        
+        // Re-render table
+        renderTable();
+      }
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      if (searchTerm === '') {
+        filteredData = [...adminData];
+      } else {
+        filteredData = adminData.filter(item => 
+          item.nama.toLowerCase().includes(searchTerm) ||
+          item.email.toLowerCase().includes(searchTerm) ||
+          item.pass.toLowerCase().includes(searchTerm) ||
+          item.nim.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      currentPage = 1;
+      renderTable();
+    });
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('adminModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // Initialize
+    renderTable();
+  </script>
+</body>
+</html>
