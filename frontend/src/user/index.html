@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Votera - IWU</title>
-  <link rel="icon" href="images/logo.jpg" type="image/x-icon">
+  <title>Votera-IWU</title>
+  <link rel="icon" href="../../images/logo-iwu.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -71,7 +70,7 @@
   <div class="min-h-screen relative gradient-bg text-white overflow-hidden pb-20">
     <!-- Header -->
     <header class="flex justify-between items-center px-6 py-4">
-      <div class="text-sm text-white opacity-60"><img src="images/logo.jpg" style="width: 38px; height: 38px;" alt="Logo IWU"></div>
+      <div class="text-sm text-white opacity-60"><img src="../../images/logo-iwu.png" style="width: 38px; height: 38px;" alt="Logo IWU"></div>
       <div></div>
     </header>
     
@@ -81,7 +80,7 @@
         <div class="flex justify-between items-center w-full md:w-auto">
           <div class="text-lg font-semibold text-black">E-Voting</div>
           <!-- Mobile menu button -->
-          <buttons id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+          <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
@@ -96,9 +95,9 @@
           <a href="#voting" class="text-black hover:text-gray-600">Voting</a>
         </nav>
         
-         <!-- Desktop Buttons -->
-          <a 
-          href="../user/login.html" class="text-sm px-4 py-2 rounded-full text-white transition" style="background-color: #0F172A;" onmouseover="this.style.backgroundColor='#0284C7'" onmouseout="this.style.backgroundColor='#0F172A'">Masuk</a>
+        <!-- Desktop Buttons -->
+        <div class="hidden md:flex space-x-2">
+          <a href="../user/login.html" class="text-sm px-4 py-2 rounded-full text-white transition" style="background-color: #0F172A;" onmouseover="this.style.backgroundColor='#0284C7'" onmouseout="this.style.backgroundColor='#0F172A'">Masuk</a>
         </div>
       </div>
       
@@ -119,7 +118,7 @@
     <!-- Main Content -->
     <main class="flex flex-col-reverse lg:flex-row items-center justify-between px-6 py-16 max-w-7xl mx-auto z-10 relative">
       <div class="w-full lg:w-1/2 flex justify-center">
-        <img src="../images/logo.jpg" alt="Ilustrasi E-Voting" class="w-72 sm:w-96 md:w-[420px] lg:w-[480px] h-auto" />
+        <img src="../../images/1.png" alt="Ilustrasi E-Voting" class="w-72 sm:w-96 md:w-[420px] lg:w-[480+px] h-auto" />
       </div>
       <div class="w-full lg:w-1/2 text-center lg:text-left text-white">
         <h1 class="text-3xl md:text-4xl font-bold mb-2">Sistem Informasi <span class="font-extrabold">E-Voting</span></h1>
@@ -168,13 +167,12 @@
           </div>
         </div>
       </div>
-      
       <!-- Candidate Cards -->
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <!-- Card 1 -->
         <div class="candidate-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
           <div class="relative">
-            <img src="img/kucing1.jpg" alt="Kandidat 1" class="w-full h-64 object-cover">
+            <img src="../../images/kandidat 2.jpg" alt="Kandidat 1" class="w-full h-64 object-cover">
             <div class="absolute top-4 right-4 bg-[#0F172A] text-white text-xs font-bold px-3 py-1 rounded-full">
               No. Urut 1
             </div>
@@ -212,7 +210,7 @@
             </div>
             
             <div class="flex space-x-2">
-              <button onclick="openDetailModal('Muhammad Farhan', 'Fakultas Teknik', 'img/kucing1.jpg', '1', '1245', '65', ['Meningkatkan kualitas akademik', 'Program beasiswa untuk anggota', 'Pengembangan laboratorium', 'Kerjasama dengan industri'], 'Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
+              <button onclick="openDetailModal('Muhammad Farhan', 'Fakultas Teknik', '../../images/kandidat 2.jpg', '1', '1245', '65', ['Meningkatkan kualitas akademik', 'Program beasiswa untuk anggota', 'Pengembangan laboratorium', 'Kerjasama dengan industri'], 'Visi saya adalah menciptakan himpunan yang menjadi wadah pengembangan diri bagi setiap anggotanya, baik secara akademik maupun non-akademik, dengan prinsip transparansi dan akuntabilitas.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
                 Detail
               </button>
               <button onclick="openVoteModal('Muhammad Farhan', '1', 'img/kucing1.jpg')" class="flex-1 text-center px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition text-sm font-medium">
@@ -225,7 +223,7 @@
         <!-- Card 2 -->
         <div class="candidate-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
           <div class="relative">
-            <img src="img/kucing.jpg" alt="Kandidat 2" class="w-full h-64 object-cover">
+            <img src="../../images/kandidat 3.jpg" alt="Kandidat 2" class="w-full h-64 object-cover">
             <div class="absolute top-4 right-4 bg-[#0F172A] text-white text-xs font-bold px-3 py-1 rounded-full">
               No. Urut 2
             </div>
@@ -263,7 +261,7 @@
             </div>
             
             <div class="flex space-x-2">
-              <button onclick="openDetailModal('Sarah Wijaya', 'Fakultas Ekonomi', 'img/kucing.jpg', '2', '892', '45', ['Pengembangan soft skills', 'Magang di perusahaan mitra', 'Jaringan alumni yang kuat', 'Kewirausahaan mahasiswa'], 'Saya berkomitmen untuk membangun himpunan yang mendukung pengembangan karir anggotanya melalui jaringan alumni yang kuat dan program magang di perusahaan-perusahaan ternama.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
+              <button onclick="openDetailModal('Sarah Wijaya', 'Fakultas Ekonomi', '../../images/kandidat 3.jpg', '2', '892', '45', ['Pengembangan soft skills', 'Magang di perusahaan mitra', 'Jaringan alumni yang kuat', 'Kewirausahaan mahasiswa'], 'Saya berkomitmen untuk membangun himpunan yang mendukung pengembangan karir anggotanya melalui jaringan alumni yang kuat dan program magang di perusahaan-perusahaan ternama.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
                 Detail
               </button>
               <button onclick="openVoteModal('Sarah Wijaya', '2', 'img/kucing.jpg')" class="flex-1 text-center px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition text-sm font-medium">
@@ -276,7 +274,7 @@
         <!-- Card 3 -->
         <div class="candidate-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
           <div class="relative">
-            <img src="img/kucing1.jpg" alt="Kandidat 3" class="w-full h-64 object-cover">
+            <img src="../../images/kandidat 4.jpg" alt="Kandidat 3" class="w-full h-64 object-cover">
             <div class="absolute top-4 right-4 bg-[#0F172A] text-white text-xs font-bold px-3 py-1 rounded-full">
               No. Urut 3
             </div>
@@ -314,7 +312,7 @@
             </div>
             
             <div class="flex space-x-2">
-              <button onclick="openDetailModal('Ahmad Fauzi', 'Fakultas Hukum', 'img/kucing1.jpg', '3', '543', '28', ['Transparansi anggaran', 'Konsultasi hukum gratis', 'Advokasi mahasiswa', 'Reformasi organisasi'], 'Saya ingin membawa perubahan dalam sistem organisasi himpunan dengan prinsip transparansi, akuntabilitas, dan pelayanan terbaik untuk semua anggota, khususnya dalam hal advokasi dan perlindungan hak mahasiswa.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
+              <button onclick="openDetailModal('Ahmad Fauzi', 'Fakultas Hukum', '../../images/kandidat 4.jpg', '3', '543', '28', ['Transparansi anggaran', 'Konsultasi hukum gratis', 'Advokasi mahasiswa', 'Reformasi organisasi'], 'Saya ingin membawa perubahan dalam sistem organisasi himpunan dengan prinsip transparansi, akuntabilitas, dan pelayanan terbaik untuk semua anggota, khususnya dalam hal advokasi dan perlindungan hak mahasiswa.')" class="flex-1 text-center px-4 py-2 rounded-lg border border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white transition text-sm font-medium">
                 Detail
               </button>
               <button onclick="openVoteModal('Ahmad Fauzi', '3', 'img/kucing1.jpg')" class="flex-1 text-center px-4 py-2 rounded-lg bg-[#0F172A] text-white hover:bg-[#0284C7] transition text-sm font-medium">
@@ -473,7 +471,7 @@
       <!-- Header Modal -->
       <div class="flex justify-between items-start mb-4">
         <h3 class="text-2xl font-bold text-gray-800" id="detailName">Nama Kandidat</h3>
-        <buttons onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600">
+        <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -880,3 +878,5 @@
   </script>
 </body>
 </html>
+      
+      
